@@ -7,16 +7,12 @@ Ai based self assistant web application
 
 ```bash
 git clone https://github.com/tkdeshan/Self_Assistant_AI_Web_App.git
-```
-```bash
 cd frontend
-```
-```bash
 npm install
-```
-```bash
 npm start
 ```
+
+### Dependency
 
 ## Backend
 
@@ -24,13 +20,9 @@ npm start
 
 ```bash
 git clone https://github.com/tkdeshan/Self_Assistant_AI_Web_App.git
-```
-```bash
 cd backend
-```
-```bash
 npm install
-```
-```bash
 npm start
 ```
+
+### Dependency
