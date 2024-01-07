@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import backgroundImage from "../assests/constants/images/background.jpg";
+import loginImage from "../assests/constants/images/login.png";
 import TextBox from "../components/TextBox";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 
@@ -7,15 +8,25 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+
   return (
     <div
       className="bg-cover h-screen"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="items-center justify-center flex h-screen">
-        <div className="w-1/2 flex flex-col items-center justify-center">
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-1/2 hidden md:block h-screen ml-8">
+          <img
+            src={loginImage}
+            alt="Login"
+            className="h-full w-full object-cover"
+          />
+        </div>
+        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center bg-opacity-80">
           <form className="w-full max-w-md p-8 bg-white rounded shadow-md">
-            <h2 className="text-2xl text-center font-bold mb-8">Login</h2>
+            <h2 className="text-2xl font-serif text-center font-bold mb-8 text-yellow-400">
+              Login to your account
+            </h2>
             <div className="mb-4 w-full">
               <TextBox
                 placeholder="Enter your email"
@@ -47,13 +58,13 @@ const LoginPage = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Sign In
             </button>
             <p className="text-gray-700 mt-4 text-center">
               Don't have an account?{" "}
-              <a href="/signup" className="text-indigo-600">
+              <a href="/signup" className="text-blue-600">
                 Sign Up
               </a>
             </p>
