@@ -21,7 +21,6 @@ const WelcomePage = () => {
 
   // Slider settings
   const settings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -36,9 +35,9 @@ const WelcomePage = () => {
       <div className="flex flex-row px-5">
         <div className="flex flex-row justify-start w-1/2 py-4 item-center">
           <img src={logo} alt="logo" className="w-10 h-10" />
-          <div className="font-serif text-2xl text-white tracking-widest ml-10">Teck Pack</div>
+          <div className="font-serif text-2xl text-white tracking-widest ml-8 py-1">Teck Pack</div>
         </div>
-        <div className="flex flex-row justify-end w-1/2 p-4 item-center">
+        <div className="flex flex-row justify-end w-1/2 py-4 item-center">
           <Link to="/register" className="text-white px-5 py-2 mx-2 rounded ring-2">
             Sign Up
           </Link>
@@ -48,11 +47,11 @@ const WelcomePage = () => {
         </div>
       </div>
 
-      <div className="mb-8 mx-auto w-full">
+      <div className="mb-2 w-full h-1/2">
         <Slider {...settings}>
           {slides.map((slide) => (
-            <div className="flex justify-center items-center" key={slide.id}>
-              <img src={slide.imageUrl} alt={slide.altText} className="w-full h-screen" />
+            <div className="" key={slide.id}>
+              <img src={slide.imageUrl} alt={slide.altText} className="w-full h-2/3" />
             </div>
           ))}
         </Slider>
