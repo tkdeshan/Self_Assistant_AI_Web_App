@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import backgroundImage from "../assests/constants/images/background.jpg";
 import loginImage from "../assests/constants/images/login.png";
 import TextBox from "../components/TextBox";
+import Button from "../components/Button";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -11,62 +13,56 @@ const LoginPage = () => {
 
   return (
     <div
-      className="bg-cover h-screen"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
-    >
-      <div className="flex items-center justify-center h-screen">
-        <div className="w-1/2 hidden md:block h-screen ml-8">
-          <img
-            src={loginImage}
-            alt="Login"
-            className="h-full w-full object-cover"
-          />
+      className="flex justify-center items-center bg-cover h-screen"
+      style={{ backgroundImage: `url(${backgroundImage})` }}>
+      <div className="flex justify-center items-center w-4/5 h-4/5 m-4 p-4 bg-white rounded-xl">
+        <div className="flex justify-center items-center w-3/5 mr-10 border-r-2 border-gray-300">
+          <img src={loginImage} alt="Login" />
         </div>
-        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center bg-opacity-80">
-          <form className="w-full max-w-md p-8 bg-white rounded shadow-md">
-            <h2 className="text-2xl font-serif text-center font-bold mb-8 text-yellow-400">
-              Login to your account
-            </h2>
-            <div className="mb-4 w-full">
-              <TextBox
-                placeholder="Enter your email"
-                label="Email"
-                type="text"
-                Icon={EnvelopeIcon}
-                value={email}
-                setValue={setEmail}
-              />
-            </div>
-            <div className="mb-6 w-full">
-              <TextBox
-                placeholder="Enter your password"
-                label="Password"
-                type="password"
-                Icon={LockClosedIcon}
-                value={password}
-                setValue={setPassword}
-              />
-            </div>
-            <div className="flex items-center mb-6">
+        <div className="w-2/5">
+          <form className="mr-10 ml-4">
+            <p className="font-sans text-gray-400 text-xl text-center font-semibold tracking-widest mb-5">
+              LOGIN TO YOUR ACCOUNT!
+            </p>
+
+            <TextBox
+              placeholder="Enter your email"
+              label="Email"
+              type="text"
+              Icon={EnvelopeIcon}
+              value={email}
+              setValue={setEmail}
+            />
+
+            <TextBox
+              placeholder="Enter your email"
+              label="Email"
+              type="password"
+              Icon={LockClosedIcon}
+              value={password}
+              setValue={setPassword}
+            />
+
+            <div className="flex items-center mb-5">
               <input
                 type="checkbox"
-                className="form-checkbox h-4 w-4 text-indigo-600 rounded mr-2"
+                id="checkbox"
+                className="h-4 w-4 rounded mr-2 accent-[#0402a8]"
                 checked={remember}
                 onChange={() => setRemember(!remember)}
               />
-              <label className="text-gray-700">Remember me</label>
+              <label htmlFor="checkbox" className="text-gray-400">
+                Remember me
+              </label>
             </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Sign In
-            </button>
-            <p className="text-gray-700 mt-4 text-center">
+
+            <Button name="Sign In" />
+
+            <p className="text-gray-400 mt-4 text-center">
               Don't have an account?{" "}
-              <a href="/signup" className="text-blue-600">
+              <Link to="/register" className="text-indigo-700">
                 Sign Up
-              </a>
+              </Link>
             </p>
           </form>
         </div>
