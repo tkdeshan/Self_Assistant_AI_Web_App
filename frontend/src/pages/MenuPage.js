@@ -6,6 +6,7 @@ import {
   PencilIcon,
   EyeIcon,
   ArrowLeftStartOnRectangleIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import TextBox from "../components/TextBox";
 
@@ -44,9 +45,14 @@ const MenuPage = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col h-screen w-4/5 mx-10 pb-5">
+      <div className="flex flex-col h-screen w-4/5 pb-5">
+        <div className="flex flex-row-reverse w-full bg-blue-500 p-3">
+          <UserCircleIcon className="w-10 h-10 mx-5 text-white" />
+        </div>
         <div className="flex flex-col h-screen w-4/5 mx-10 pb-5">chat histry</div>
-        <TextBox type="text" Icon={PencilIcon} value={chat} setValue={setChat} />
+        <div className="px-10">
+          <TextBox type="text" Icon={PencilIcon} value={chat} setValue={setChat} />
+        </div>
       </div>
     </div>
   );
