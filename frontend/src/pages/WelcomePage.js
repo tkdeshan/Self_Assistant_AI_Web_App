@@ -47,15 +47,17 @@ const WelcomePage = () => {
         </div>
       </div>
 
-      <div className="mb-2 w-full h-1/2">
-        <Slider {...settings}>
-          {slides.map((slide) => (
-            <div className="" key={slide.id}>
-              <img src={slide.imageUrl} alt={slide.altText} className="w-full h-2/3" />
-            </div>
-          ))}
-        </Slider>
-      </div>
+      <Slider {...settings}>
+        {slides.map((slide) => (
+          <div className="" key={slide.id}>
+            <img
+              src={slide.imageUrl}
+              alt={slide.altText}
+              className="w-full h-500px object-cover object-center mb-2 mx-auto"
+            />
+          </div>
+        ))}
+      </Slider>
 
       <div className="pb-5">
         <div className="text-white flex justify-center">Copyright 2024 Teck Pack. All Rights Reserved</div>

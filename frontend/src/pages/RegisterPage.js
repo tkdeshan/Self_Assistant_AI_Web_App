@@ -62,7 +62,7 @@ const RegisterPage = () => {
               setValue={setConpassword}
             />
 
-            <Button name="Sign In" />
+            <Button name="Sign Up" />
 
             <p className="text-gray-400 mt-4 text-center">
               Do have an account?{" "}
