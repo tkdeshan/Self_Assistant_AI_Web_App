@@ -4,12 +4,18 @@ import loginImage from "../assests/constants/images/login.png";
 import TextBox from "../components/TextBox";
 import Button from "../components/Button";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    navigate("/menu");
+  };
 
   return (
     <div
@@ -20,7 +26,7 @@ const LoginPage = () => {
           <img src={loginImage} alt="Login" />
         </div>
         <div className="w-2/5">
-          <form className="mr-10 ml-4">
+          <form className="mr-10 ml-4" onSubmit={handleLogin}>
             <p className="font-sans text-gray-400 text-xl text-center font-semibold tracking-widest mb-5">
               LOGIN TO YOUR ACCOUNT!
             </p>
