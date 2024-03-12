@@ -1,3 +1,3 @@
 # Self_Assistant_AI_Web_App
 
-Ai-based self-assistant web application for testing knowledge and providing guidance.
+AI-based web application for testing knowledge and providing career guidance. It consists of a chat interface and a dashboard.
