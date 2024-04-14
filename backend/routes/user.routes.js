@@ -10,24 +10,18 @@ router.post("/register", async (req, res) => {
     // Check if email already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ code: 13001, message: "User already exists" });
+      return res.status(400).json({ code: 13001, message: "User already exists" });
     }
 
     const user = new User({ name, email, password });
     await user.save();
-    res
-      .status(201)
-      .json({ code: 14001, message: "User registered successfully" });
+    res.status(201).json({ code: 14001, message: "User registered successfully" });
   } catch (error) {
-    res
-      .status(400)
-      .json({
-        code: 13002,
-        message: "Failed to register user",
-        error: error.message,
-      });
+    res.status(400).json({
+      code: 13002,
+      message: "Failed to register user",
+      error: error.message,
+    });
   }
 });
 
@@ -44,17 +38,43 @@ router.post("/login", async (req, res) => {
 
     // Check if password is correct
     if (user.password !== password) {
-      return res
-        .status(400)
-        .json({ code: 13004, message: "Password does not match" });
+      return res.status(400).json({ code: 13004, message: "Password does not match" });
     }
 
     // Login successful
     res.status(200).json({ code: 14002, message: "Login successful" });
   } catch (error) {
-    res
-      .status(400)
-      .json({ code: 13004, message: "Failed to login", error: error.message });
+    res.status(400).json({ code: 13004, message: "Failed to login", error: error.message });
+  }
+});
+
+// Update user information
+router.put("/update/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { name, email, password } = req.body;
+
+    // Check if user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ code: 13005, message: "User not found" });
+    }
+
+    // Update user fields if provided
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) user.password = password;
+
+    // Save updated user
+    await user.save();
+
+    res.status(200).json({ code: 14003, message: "User updated successfully" });
+  } catch (error) {
+    res.status(400).json({
+      code: 13006,
+      message: "Failed to update user",
+      error: error.message,
+    });
   }
 });
 
