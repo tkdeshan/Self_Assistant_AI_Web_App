@@ -48,6 +48,24 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Get user by email
+router.get("/getuserbyemail", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ code: 13007, message: "User not found" });
+    }
+
+    // Return user data
+    res.status(200).json({ code: 14004, message: "User found", user });
+  } catch (error) {
+    res.status(400).json({ code: 13008, message: "Failed to get user by email", error: error.message });
+  }
+});
+
 // Update user information
 router.put("/update/:id", async (req, res) => {
   try {
