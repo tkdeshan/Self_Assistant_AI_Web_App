@@ -25,14 +25,14 @@ function TextBox({
           {label}
         </label>
       )}
-      <div className="flex items-center p-2">
+      <div className="flex items-center p-1">
         {Icon && <Icon className="h-6 w-6 text-gray-300 mr-2" />}
         <input
           type={isPassword && showPassword ? "text" : type}
           placeholder={placeholder}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="appearance-none bg-transparent border-none w-full h-full text-gray-700 p-2 leading-tight focus:outline-none"
+          className="appearance-none bg-transparent border-none w-full h-full text-gray-700 p-1 leading-tight focus:outline-none"
           required={required}
         />
         {isPassword && (
