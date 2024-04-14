@@ -5,6 +5,7 @@ import TextBox from "../components/TextBox";
 import Button from "../components/Button";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -14,13 +15,30 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
-    navigate("/menu");
+    event.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/user/login", {
+        email,
+        password,
+      });
+      navigate("/chat");
+    } catch (error) {
+      if (
+        error?.response?.data?.code === 13003 ||
+        error?.response?.data?.code === 13004
+      ) {
+        alert(error?.response?.data?.message);
+      } else {
+        alert(error?.response?.data?.message);
+      }
+    }
   };
 
   return (
     <div
       className="flex justify-center items-center bg-cover h-screen"
-      style={{ backgroundImage: `url(${backgroundImage})` }}>
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
       <div className="flex justify-center items-center w-4/5 h-4/5 m-4 p-4 bg-white rounded-xl">
         <div className="flex justify-center items-center w-3/5 mr-10 border-r-2 border-gray-300">
           <img src={loginImage} alt="Login" />
@@ -38,6 +56,7 @@ const LoginPage = () => {
               Icon={EnvelopeIcon}
               value={email}
               setValue={setEmail}
+              required={true}
             />
 
             <TextBox
@@ -47,6 +66,7 @@ const LoginPage = () => {
               Icon={LockClosedIcon}
               value={password}
               setValue={setPassword}
+              required={true}
             />
 
             <div className="flex items-center mb-5">

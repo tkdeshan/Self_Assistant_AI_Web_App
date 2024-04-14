@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import backgroundImage from "../assests/constants/images/background.jpg";
-import loginImage from "../assests/constants/images/login.png";
+import loginImage from "../assests/constants/images/reg.jpg";
 import TextBox from "../components/TextBox";
 import Button from "../components/Button";
-import { UserIcon, EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
+import {
+  UserIcon,
+  EnvelopeIcon,
+  LockClosedIcon,
+} from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -12,16 +17,43 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [conpassword, setConpassword] = useState("");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password !== conpassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    try {
+      const response = await axios.post("http://localhost:5000/user/register", {
+        name,
+        email,
+        password,
+      });
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConpassword("");
+      alert(response?.data?.message);
+    } catch (error) {
+      if (error?.response?.data?.code === 13001) {
+        alert(error?.response?.data?.message);
+      } else {
+        alert(error?.response?.data?.message);
+      }
+    }
+  };
+
   return (
     <div
       className="flex justify-center items-center bg-cover h-screen"
-      style={{ backgroundImage: `url(${backgroundImage})` }}>
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
       <div className="flex justify-center items-center w-4/5 h-4/5 m-4 p-4 bg-white rounded-xl">
         <div className="flex justify-center items-center w-3/5 mr-10 border-r-2 border-gray-300">
           <img src={loginImage} alt="Login" />
         </div>
         <div className="w-2/5">
-          <form className="mr-10 ml-4">
+          <form className="mr-10 ml-4" onSubmit={handleSubmit}>
             <p className="font-sans text-gray-400 text-xl text-center font-semibold tracking-widest mb-5">
               REGISTER!
             </p>
@@ -33,6 +65,7 @@ const RegisterPage = () => {
               Icon={UserIcon}
               value={name}
               setValue={setName}
+              required={true}
             />
 
             <TextBox
@@ -42,6 +75,7 @@ const RegisterPage = () => {
               Icon={EnvelopeIcon}
               value={email}
               setValue={setEmail}
+              required={true}
             />
 
             <TextBox
@@ -51,6 +85,7 @@ const RegisterPage = () => {
               Icon={LockClosedIcon}
               value={password}
               setValue={setPassword}
+              required={true}
             />
 
             <TextBox
@@ -60,6 +95,7 @@ const RegisterPage = () => {
               Icon={LockClosedIcon}
               value={conpassword}
               setValue={setConpassword}
+              required={true}
             />
 
             <Button name="Sign Up" />

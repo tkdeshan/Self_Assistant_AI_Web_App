@@ -1,7 +1,15 @@
 import React from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
-function TextBox({ label = null, placeholder = "", type = "text", Icon = null, value, setValue }) {
+function TextBox({
+  label = null,
+  placeholder = "",
+  type = "text",
+  Icon = null,
+  value,
+  setValue,
+  required = false,
+}) {
   const isPassword = type === "password";
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -25,6 +33,7 @@ function TextBox({ label = null, placeholder = "", type = "text", Icon = null, v
           value={value}
           onChange={(e) => setValue(e.target.value)}
           className="appearance-none bg-transparent border-none w-full h-full text-gray-700 p-2 leading-tight focus:outline-none"
+          required={required}
         />
         {isPassword && (
           <div className="ml-2 cursor-pointer" onClick={handleTogglePassword}>
