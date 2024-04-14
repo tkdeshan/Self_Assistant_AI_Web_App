@@ -51,7 +51,7 @@ router.post("/login", async (req, res) => {
 // Get user by email
 router.get("/getuserbyemail", async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email } = req.query;
 
     // Find user by email
     const user = await User.findOne({ email });
