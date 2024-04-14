@@ -18,7 +18,7 @@ function EditProfile() {
           alert("Email is required");
         }
 
-        const response = await axios.get("http://localhost:5000/user/getuserbyemail", {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/getuserbyemail`, {
           params: { email },
         });
 
@@ -49,7 +49,7 @@ function EditProfile() {
     };
 
     try {
-      const response = await axios.put(`http://localhost:5000/user/update/${id}`, userData);
+      const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/user/update/${id}`, userData);
 
       alert(response?.data?.message);
     } catch (error) {

@@ -23,112 +23,33 @@ const WelcomePage = () => {
         </div>
       </div>
 
-      <div className="relative">
-        <div
-          style={{
-            width: "100%",
-            height: "900px", // Adjust the height as needed
-            backgroundColor: "#dfe6e8",
-            position: "relative",
-          }}
-        >
-          {/* First Box */}
-          <div
-            style={{
-              position: "absolute",
-              top: "70px", // Adjust the top position as needed
-              left: "68%",
-              transform: "translateX(-50%)",
-              width: "850px", // Adjust the width as needed
-              height: "250px", // Adjust the height as needed
-              backgroundColor: "#fff", // Box color
-              border: "2px solid #000", // Border color
-              borderRadius: "10px", // Border radius
-              padding: "20px", // Add padding for the paragraph
-            }}
-          >
-            <p
-              style={{
-                textAlign: "center", // Text justification
-                color: "#333", // Font color
-                fontSize: "18px", // Font size
-              }}
-            >
-              Do you have a dream to work in the ICT field? So this platform for you. 
+      <div className="flex flex-col px-20 py-4">
+        <div className="flex flex-row p-2 bg-gray-300 bg-opacity-20 rounded-lg">
+          <div className="w-1/2 h-60 p-5">
+            <p className="text-white">
+              Do you have a dream to work in the ICT field? So this platform for you.
             </p>
           </div>
-
-          {/* W1 Image */}
-          <img
-            src={W1Image}
-            alt="w1 image"
-            style={{
-              maxWidth: "500px",
-              width: "100%",
-              height: "300px",
-              marginLeft: "-450px",
-              position: "absolute",
-              top: "200px",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              border: "2px solid #000",
-              borderRadius: "10px",
-            }}
-          />
-
-          {/* Second Box */}
-          <div
-            style={{
-              position: "absolute",
-              top: "435px", // Adjust the top position as needed
-              left: "32%",
-              transform: "translateX(-50%)",
-              width: "850px", // Adjust the width as needed
-              height: "250px", // Adjust the height as needed
-              backgroundColor: "#fff", // Box color
-              border: "2px solid #000", // Border color
-              borderRadius: "10px", // Border radius
-              padding: "20px", // Add padding for the paragraph
-            }}
-          >
-            <p
-              style={{
-                textAlign: "center", // Text justification
-                color: "#333", // Font color
-                fontSize: "18px", // Font size
-              }}
-            >
-              Do you have a dream to work in the ICT field?
-            </p>
+          <div className="w-1/2 h-60 p-1">
+            <img src={W1Image} alt="w1" className="h-full w-full border border-gray-400 rounded-lg" />
           </div>
-
-          {/* W2 Image */}
-          <img
-            src={W2Image}
-            alt="w2 image"
-            style={{
-              maxWidth: "500px",
-              width: "100%",
-              height: "300px",
-              marginLeft: "450px",
-              position: "absolute",
-              top: "550px",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              border: "2px solid #000",
-              borderRadius: "10px",
-            }}
-          />
+        </div>
+        <div className="flex flex-row p-2 bg-gray-300 bg-opacity-20 mt-5 rounded-lg">
+          <div className="w-1/2 h-60 p-5">
+            <p className="text-white"> Do you have a dream to work in the ICT field?</p>
+          </div>
+          <div className="w-1/2 h-60 p-1">
+            <img src={W2Image} alt="w2" className="h-full w-full border border-gray-400 rounded-lg" />
+          </div>
         </div>
       </div>
 
       <div className="pb-5">
         <div className="text-white flex justify-center">Copyright 2024 Teck Pack. All Rights Reserved</div>
-        <div className="text-white flex justify-center">Designed by Shammi</div>
+        <div className="text-white flex justify-center">Designed by Kavinda</div>
       </div>
     </div>
   );
 };
 
 export default WelcomePage;
-

@@ -29,7 +29,7 @@ const LoginPage = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:5000/user/login", {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/user/login`, {
         email,
         password,
       });
