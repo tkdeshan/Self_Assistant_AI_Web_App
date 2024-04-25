@@ -31,7 +31,7 @@ The AI Career Guidance and Knowledge Testing Web Application is a comprehensive 
 
 ## Demo
 
-The web app is live on : 
+The web app is live on : https://self-assistant-ai-web-app.vercel.app/
 
 ## Getting Started
 
