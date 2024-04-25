@@ -1,16 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const Chat = require("../models/Chat");
+const sendRequestToGemini = require("../gemini");
 
 // Create a new chat message
 router.post("/", async (req, res) => {
   try {
-    const { userId, message, response } = req.body;
+    const { userId, message } = req.body;
+
+    const requestData = {
+      contents: [{ parts: [{ text: message }] }],
+    };
+
+    const textContent = await sendRequestToGemini(requestData);
 
     const chatMessage = new Chat({
       userId,
       message,
-      response,
+      response: textContent,
     });
 
     await chatMessage.save();

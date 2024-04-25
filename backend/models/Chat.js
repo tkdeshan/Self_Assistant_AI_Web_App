@@ -11,7 +11,6 @@ const chatSchema = new mongoose.Schema({
   },
   response: {
     type: String,
-    default: "Default Response",
   },
   timestamp: {
     type: Date,
