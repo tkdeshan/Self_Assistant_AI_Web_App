@@ -7,36 +7,44 @@ import Button from "../Button";
 function Chat() {
   const [chats, setChats] = useState([]);
   const [chatInput, setChatInput] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchChats() {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat/661bd6dc3fa4ae8bdd9f7654`);
-        setChats(response.data.chats);
-      } catch (error) {
-        console.error("Failed to fetch chats:", error);
-      }
-    }
-
     fetchChats();
   }, []);
 
+  const fetchChats = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat/661bd6dc3fa4ae8bdd9f7654`);
+      setChats(response.data.chats);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch chats:", error);
+    }
+  };
+
   const handleSend = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/chat`, {
+      setLoading(true);
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat`, {
         userId: "661bd6dc3fa4ae8bdd9f7654",
         message: chatInput,
       });
-
       setChatInput("");
+      fetchChats();
+      setLoading(false);
+      return response.data;
     } catch (error) {
       console.error("Failed to send chat:", error);
+      return null;
     }
   };
 
   return (
-    <div className="flex flex-col px-10 mt-5">
-      <div className="flex flex-col gap-4">
+    <div
+      className="flex flex-col px-10 mt-5 h-screen overflow-hidden mx-auto pb-5"
+      style={{ maxHeight: "95%" }}>
+      <div className="flex flex-col gap-4 overflow-y-auto">
         {chats.map((chat, index) => (
           <div key={index} className="flex flex-col gap-4 w-full">
             <div className="flex justify-end">
@@ -51,7 +59,14 @@ function Chat() {
         ))}
       </div>
 
-      <form className="flex flex-row mt-10" onSubmit={handleSend}>
+      {loading ? <div className="mt-10 text-blue-500">Waiting...</div> : null}
+
+      <form
+        className="flex flex-row mt-auto" // Use "mt-auto" to push the form to the bottom
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await handleSend();
+        }}>
         <TextBox
           type="text"
           Icon={PencilIcon}

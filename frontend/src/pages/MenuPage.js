@@ -55,11 +55,11 @@ const MenuPage = ({ page }) => {
           </Link>
         </div>
       </div>
-      <div className="flex flex-col h-screen w-4/5 pb-5">
+      <div className="flex flex-col w-4/5 pb-5">
         <div className="flex flex-row-reverse w-full bg-sky-900 p-3">
           <UserCircleIcon className="w-10 h-11 mx-5 text-white" />
         </div>
-        <div>{page}</div>
+        <div style={{ maxHeight: "90%" }}>{page}</div>
       </div>
     </div>
   );
