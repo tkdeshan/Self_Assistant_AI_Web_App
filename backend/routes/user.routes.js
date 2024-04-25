@@ -14,9 +14,9 @@ router.post("/register", async (req, res) => {
 
     const user = new User({ name, email, password });
     await user.save();
-    res.status(201).json({ code: 14001, message: "User registered successfully" });
+    return res.status(201).json({ code: 14001, message: "User registered successfully" });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       code: 13002,
       message: "Failed to register user",
       error: error.message,
@@ -38,9 +38,9 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ code: 13004, message: "Password does not match" });
     }
 
-    res.status(200).json({ code: 14002, message: "Login successful" });
+    return res.status(200).json({ code: 14002, message: "Login successful" });
   } catch (error) {
-    res.status(400).json({ code: 13005, message: "Failed to login", error: error.message });
+    return res.status(400).json({ code: 13005, message: "Failed to login", error: error.message });
   }
 });
 
@@ -54,9 +54,11 @@ router.get("/getuserbyemail", async (req, res) => {
       return res.status(404).json({ code: 13003, message: "User not found" });
     }
 
-    res.status(200).json({ code: 14003, message: "User found", user });
+    return res.status(200).json({ code: 14003, message: "User found", user });
   } catch (error) {
-    res.status(400).json({ code: 13006, message: "Failed to get user by email", error: error.message });
+    return res
+      .status(400)
+      .json({ code: 13006, message: "Failed to get user by email", error: error.message });
   }
 });
 
@@ -76,9 +78,9 @@ router.put("/update/:id", async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ code: 14004, message: "User updated successfully" });
+    return res.status(200).json({ code: 14004, message: "User updated successfully" });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       code: 13007,
       message: "Failed to update user",
       error: error.message,

@@ -22,9 +22,9 @@ router.post("/", async (req, res) => {
 
     await chatMessage.save();
 
-    res.status(201).json({ message: "Chat message created successfully", chatMessage });
+    return res.status(201).json({ message: "Chat message created successfully", chatMessage });
   } catch (error) {
-    res.status(500).json({ message: "Failed to create chat message", error: error.message });
+    return res.status(500).json({ message: "Failed to create chat message", error: error.message });
   }
 });
 
@@ -35,9 +35,9 @@ router.get("/:userId", async (req, res) => {
 
     const chats = await Chat.find({ userId });
 
-    res.status(200).json({ chats });
+    return res.status(200).json({ chats });
   } catch (error) {
-    res.status(500).json({ message: "Failed to retrieve chat messages", error: error.message });
+    return res.status(500).json({ message: "Failed to retrieve chat messages", error: error.message });
   }
 });
 
