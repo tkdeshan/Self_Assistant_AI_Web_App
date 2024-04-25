@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Chat = require("../models/Chat");
+const User = require("../models/User");
 const sendRequestToGemini = require("../gemini");
 
 // Create a new chat message
 router.post("/", async (req, res) => {
   try {
-    const { userId, message } = req.body;
+    const { email, message } = req.body;
 
     const requestData = {
       contents: [{ parts: [{ text: message }] }],
@@ -15,7 +16,7 @@ router.post("/", async (req, res) => {
     const textContent = await sendRequestToGemini(requestData);
 
     const chatMessage = new Chat({
-      userId,
+      email,
       message,
       response: textContent,
     });
@@ -28,12 +29,18 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Get all chat messages for a specific user ID
-router.get("/:userId", async (req, res) => {
+// Get all chat messages for a specific user email
+router.get("/", async (req, res) => {
   try {
-    const { userId } = req.params;
+    const email = req.query.email;
 
-    const chats = await Chat.find({ userId });
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const chats = await Chat.find({ email });
 
     return res.status(200).json({ chats });
   } catch (error) {
