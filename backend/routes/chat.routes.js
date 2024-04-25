@@ -1,36 +1,50 @@
 const express = require("express");
 const router = express.Router();
 const Chat = require("../models/Chat");
+const User = require("../models/User");
+const sendRequestToGemini = require("../gemini");
 
 // Create a new chat message
 router.post("/", async (req, res) => {
   try {
-    const { userId, message, response } = req.body;
+    const { email, message } = req.body;
+
+    const requestData = {
+      contents: [{ parts: [{ text: message }] }],
+    };
+
+    const textContent = await sendRequestToGemini(requestData);
 
     const chatMessage = new Chat({
-      userId,
+      email,
       message,
-      response,
+      response: textContent,
     });
 
     await chatMessage.save();
 
-    res.status(201).json({ message: "Chat message created successfully", chatMessage });
+    return res.status(201).json({ message: "Chat message created successfully", chatMessage });
   } catch (error) {
-    res.status(500).json({ message: "Failed to create chat message", error: error.message });
+    return res.status(500).json({ message: "Failed to create chat message", error: error.message });
   }
 });
 
-// Get all chat messages for a specific user ID
-router.get("/:userId", async (req, res) => {
+// Get all chat messages for a specific user email
+router.get("/", async (req, res) => {
   try {
-    const { userId } = req.params;
+    const email = req.query.email;
 
-    const chats = await Chat.find({ userId });
+    const user = await User.findOne({ email });
 
-    res.status(200).json({ chats });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const chats = await Chat.find({ email });
+
+    return res.status(200).json({ chats });
   } catch (error) {
-    res.status(500).json({ message: "Failed to retrieve chat messages", error: error.message });
+    return res.status(500).json({ message: "Failed to retrieve chat messages", error: error.message });
   }
 });
 

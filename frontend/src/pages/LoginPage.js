@@ -34,12 +34,11 @@ const LoginPage = () => {
         password,
       });
 
-      // Save credentials in local storage if remember me is checked
+      localStorage.setItem("email", email);
+      // Save password in local storage if remember me is checked
       if (remember) {
-        localStorage.setItem("email", email);
         localStorage.setItem("password", password);
       } else {
-        localStorage.removeItem("email");
         localStorage.removeItem("password");
       }
 
