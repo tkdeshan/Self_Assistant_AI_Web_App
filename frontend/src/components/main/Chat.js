@@ -16,7 +16,7 @@ function Chat() {
   const fetchChats = async () => {
     try {
       const email = localStorage.getItem("email");
-      const response = await axios.get("https://self-assistant-ai-web-app-backend.vercel.app/chat", {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat`, {
         params: { email: email },
       });
 
@@ -31,7 +31,7 @@ function Chat() {
     try {
       const email = localStorage.getItem("email");
       setLoading(true);
-      const response = await axios.post("https://self-assistant-ai-web-app-backend.vercel.app/chat", {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat`, {
         email: email,
         message: chatInput,
       });
