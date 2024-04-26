@@ -57,7 +57,7 @@ function Chat() {
             </div>
             {chat.response && (
               <div className="flex justify-start">
-                <div className="rounded-lg p-2 bg-blue-200 w-1/3">{chat.response}</div>
+                <div className="rounded-lg p-2 bg-blue-200 w-2/3">{chat.response}</div>
               </div>
             )}
           </div>
