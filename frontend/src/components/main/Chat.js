@@ -57,10 +57,28 @@ function Chat() {
     }
   };
 
+  const handleReset = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/chat`, {
+        data: { email: email },
+      });
+      fetchChats();
+    } catch (error) {
+      console.error("Failed to reset chat:", error);
+    }
+  };
+
   return (
     <div
       className="flex flex-col px-10 mt-5 h-screen overflow-hidden mx-auto pb-5"
       style={{ maxHeight: "95%" }}>
+      <div className="flex justify-end">
+        <div className="w-20">
+          <Button type="button" name="Reset" onClick={handleReset} />
+        </div>
+      </div>
+
       <div className="flex flex-col gap-4 overflow-y-auto mb-10">
         {!chat && (
           <div className="flex justify-start">
@@ -119,24 +137,27 @@ function Chat() {
 
       {loading ? <div className="mt-10 text-blue-500">Waiting...</div> : null}
 
-      <form
-        className="flex flex-row mt-auto"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          await handleSend();
-        }}>
-        <TextArea
-          type="text"
-          Icon={PencilIcon}
-          value={chatInput}
-          setValue={setChatInput}
-          placeholder="Type your message..."
-          required={true}
-        />
-        <div className="w-20">
-          <Button type="submit" name="Send" />
-        </div>
-      </form>
+      {chat?.annalys == null && (
+        <form
+          className="flex flex-row mt-auto"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await handleSend();
+          }}>
+          <TextArea
+            type="text"
+            Icon={PencilIcon}
+            value={chatInput}
+            setValue={setChatInput}
+            placeholder="Type your message..."
+            required={true}
+          />
+
+          <div className="w-20">
+            <Button type="submit" name="Send" />
+          </div>
+        </form>
+      )}
     </div>
   );
 }
