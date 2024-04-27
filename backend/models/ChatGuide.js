@@ -24,6 +24,6 @@ const chatGuideSchema = new mongoose.Schema({
   },
 });
 
-const ChatGuide = mongoose.model("Chat", chatGuideSchema);
+const ChatGuide = mongoose.model("ChatGuide", chatGuideSchema);
 
 module.exports = ChatGuide;
