@@ -44,6 +44,7 @@ router.post("/", async (req, res) => {
 router.put("/", async (req, res) => {
   try {
     const { email, message, response } = req.body;
+    const annalys = null;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -94,7 +95,11 @@ router.put("/", async (req, res) => {
     const textContent = await sendRequestToGemini(requestData);
     message.push(textContent);
 
-    const updatedChat = await ChatGuide.findOneAndUpdate({ email }, { message, response }, { new: true });
+    const updatedChat = await ChatGuide.findOneAndUpdate(
+      { email },
+      { message, response, annalys: numQuestion + 2 > message.length ? null : textContent },
+      { new: true }
+    );
 
     return res.status(200).json({ message: "Chat message updated successfully", updatedChat });
   } catch (error) {
