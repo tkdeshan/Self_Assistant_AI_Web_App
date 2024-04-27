@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Chat = require("../models/Chat");
+const ChatGuide = require("../models/ChatGuide");
 const User = require("../models/User");
 const sendRequestToGemini = require("../gemini");
-const { messageTest } = require("../constants");
+const { messageGuide } = require("../constants");
 
 // Create a new chat message
 router.post("/", async (req, res) => {
@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
         {
           parts: [
             {
-              text: messageTest.promptGnerateInitialQuestion,
+              text: messageGuide.promptGnerateInitialQuestion,
             },
           ],
         },
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 
     message.push(textContent);
 
-    const chatMessage = new Chat({
+    const chatMessage = new ChatGuide({
       email,
       message,
       response,
@@ -51,22 +51,33 @@ router.put("/", async (req, res) => {
     }
 
     let prompt = "";
-    prompt += `${messageTest.promptGnerateInitialQuestion}\n`;
+    const numQuestion = parseInt(response[0].split(",")[1].trim());
 
-    for (let i = 0; i < Math.max(message.length, response.length); i++) {
-      if (message[i]) {
-        if (i === 0) {
-          continue;
+    if (numQuestion >= message.length) {
+      for (let i = 0; i < Math.max(message.length, response.length); i++) {
+        if (message[i]) {
+          if (i === 0) {
+            continue;
+          }
+          prompt += `${message[i]}\n`;
         }
-        prompt += `${message[i]}\n`;
       }
+      prompt += `${messageGuide.promptGnerateNextQuestion}`;
+    } else {
+      for (let i = 0; i < Math.max(message.length, response.length); i++) {
+        if (message[i]) {
+          if (i === 0) {
+            continue;
+          }
+          prompt += `${message[i]}\n`;
+        }
 
-      if (response[i]) {
-        prompt += `${response[i]}\n`;
+        if (response[i]) {
+          prompt += `${response[i]}\n`;
+        }
       }
+      prompt += `${messageGuide.promptAnalysis}`;
     }
-
-    prompt += `${messageTest.promptGnerateNextQuestion}`;
 
     const requestData = {
       contents: [
@@ -83,7 +94,11 @@ router.put("/", async (req, res) => {
     const textContent = await sendRequestToGemini(requestData);
     message.push(textContent);
 
-    const updatedChat = await Chat.findOneAndUpdate({ email }, { message, response }, { new: true });
+    const updatedChat = await ChatGuide.findOneAndUpdate(
+      { email },
+      { message, response, annalys: numQuestion + 2 > message.length ? null : textContent },
+      { new: true }
+    );
 
     return res.status(200).json({ message: "Chat message updated successfully", updatedChat });
   } catch (error) {
@@ -102,11 +117,32 @@ router.get("/", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const chat = await Chat.findOne({ email });
+    const chat = await ChatGuide.findOne({ email });
 
     return res.status(200).json(chat);
   } catch (error) {
     return res.status(500).json({ message: "Failed to retrieve chat messages", error: error.message });
+  }
+});
+
+// Delete a chat message
+router.delete("/", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const deletedChat = await ChatGuide.findOneAndDelete({ email });
+    if (!deletedChat) {
+      return res.status(404).json({ message: "Chat message not found" });
+    }
+
+    return res.status(200).json({ message: "Chat message deleted successfully", deletedChat });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to delete chat message", error: error.message });
   }
 });
 

@@ -1,10 +1,11 @@
 import React from "react";
 
-const Button = ({ name }) => {
+const Button = ({ name, type, onClick }) => {
   return (
     <button
-      type="submit"
-      className="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded ">
+      type={type}
+      className="w-full bg-blue-900 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+      onClick={onClick}>
       {name}
     </button>
   );
