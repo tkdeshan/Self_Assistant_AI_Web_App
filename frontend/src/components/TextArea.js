@@ -1,6 +1,6 @@
 import React from "react";
 
-function TextBox({ label = null, placeholder = "", value, setValue, required = false }) {
+function TextArea({ label = null, placeholder = "", value, setValue, required = false }) {
   return (
     <div className="relative border-2 border-gray-300 w-full rounded mb-5">
       {label && (
@@ -9,12 +9,12 @@ function TextBox({ label = null, placeholder = "", value, setValue, required = f
         </label>
       )}
       <div className="flex items-center p-1">
-        <input
-          type="text"
+        <textarea
           placeholder={placeholder}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="appearance-none bg-transparent border-none w-full h-full text-gray-700 p-1 leading-tight focus:outline-none"
+          className="appearance-none bg-transparent border-none w-full h-full text-gray-700 p-1 leading-tight focus:outline-none resize-none"
+          style={{ minHeight: "100px", maxHeight: "200px" }}
           required={required}
         />
       </div>
@@ -22,4 +22,4 @@ function TextBox({ label = null, placeholder = "", value, setValue, required = f
   );
 }
 
-export default TextBox;
+export default TextArea;

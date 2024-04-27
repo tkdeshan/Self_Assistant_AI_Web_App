@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TextBox from "../TextBox";
+import TextArea from "../TextArea";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Button from "../Button";
@@ -17,7 +17,7 @@ function Chat() {
   const fetchChats = async () => {
     try {
       const email = localStorage.getItem("email");
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat`, {
+      const response = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat`, {
         params: { email: email },
       });
 
@@ -34,13 +34,13 @@ function Chat() {
       setLoading(true);
       let response = null;
       if (chat) {
-        response = await axios.put(`${process.env.REACT_APP_BASE_URL}/chat`, {
+        response = await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/chat`, {
           email: email,
           message: chat.message,
           response: [...chat.response, chatInput],
         });
       } else {
-        response = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat`, {
+        response = await axios.post(`https://self-assistant-ai-web-app-backend.vercel.app/chat`, {
           email: email,
           message: [messageTest.initial],
           response: [chatInput],
@@ -108,7 +108,7 @@ function Chat() {
           e.preventDefault();
           await handleSend();
         }}>
-        <TextBox
+        <TextArea
           type="text"
           Icon={PencilIcon}
           value={chatInput}
