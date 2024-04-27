@@ -57,17 +57,15 @@ router.put("/", async (req, res) => {
     const numQuestion = parseInt(response[0].split(",")[1].trim());
 
     if (numQuestion >= message.length) {
-      const lastMessage = message.slice(-1)[0];
-      const lastResponse = response.slice(-1)[0];
-
-      if (lastMessage) {
-        prompt += lastMessage + "\n";
+      for (let i = 0; i < Math.max(message.length, response.length); i++) {
+        if (message[i]) {
+          if (i === 0) {
+            continue;
+          }
+          prompt += `${message[i]}\n`;
+        }
       }
-      if (lastResponse) {
-        prompt += lastResponse + "\n";
-      }
-
-      prompt += messageTest.promptGnerateNextQuestion + " " + skill;
+      prompt += `${messageTest.promptGnerateNextQuestion} ${skill}`;
     } else {
       for (let i = 0; i < Math.max(message.length, response.length); i++) {
         if (message[i]) {
@@ -83,8 +81,6 @@ router.put("/", async (req, res) => {
       }
       prompt += `${messageTest.promptAnalysis}`;
     }
-
-    console.log(prompt);
 
     const requestData = {
       contents: [
