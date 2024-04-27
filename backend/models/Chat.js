@@ -6,12 +6,18 @@ const chatSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  message: {
-    type: String,
-  },
-  response: {
-    type: String,
-  },
+  message: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+  response: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   timestamp: {
     type: Date,
     default: Date.now,
