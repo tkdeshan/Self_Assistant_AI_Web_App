@@ -79,7 +79,7 @@ router.put("/", async (req, res) => {
           prompt += `${response[i]}\n`;
         }
       }
-      prompt += `${messageTest.promptAnalysis}`;
+      prompt += `${messageTest.promptAnalysis} ${skill}`;
     }
 
     const requestData = {
