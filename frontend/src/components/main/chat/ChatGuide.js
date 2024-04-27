@@ -144,7 +144,6 @@ function ChatGuide() {
           }}>
           <TextArea
             type="text"
-            Icon={PencilIcon}
             value={chatInput}
             setValue={setChatInput}
             placeholder="Type your message..."

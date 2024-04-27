@@ -1,24 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextArea from "../../TextArea";
 import Button from "../../Button";
+import axios from "axios";
+const { messageTest } = require("../../../constants");
 
 function ChatTest() {
   const [chat, setChat] = useState(null);
   const [chatInput, setChatInput] = useState("");
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetchChats();
+  }, []);
+
+  const fetchChats = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+        params: { email: email },
+      });
+
+      setChat(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch chats:", error);
+    }
+  };
+
+  const handleSend = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      setLoading(true);
+      let response = null;
+      if (chat) {
+        response = await axios.put(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+          email: email,
+          message: chat.message,
+          response: [...chat.response, chatInput],
+        });
+      } else {
+        response = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+          email: email,
+          message: [messageTest.initial],
+          response: [chatInput],
+        });
+      }
+      if (response) {
+        setChatInput("");
+        fetchChats();
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Failed to send chat:", error);
+      return null;
+    }
+  };
+
+  const handleReset = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+        data: { email: email },
+      });
+      fetchChats();
+    } catch (error) {
+      console.error("Failed to reset chat:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col mx-auto pb-5" style={{ height: "70vh" }}>
       <div className="flex justify-end">
         <div className="w-20">
-          <Button type="button" name="Reset" />
+          <Button type="button" name="Reset" onClick={handleReset} />
         </div>
       </div>
 
       <div className="flex flex-col gap-4 overflow-y-auto mb-10">
         {!chat && (
           <div className="flex justify-start">
-            <div className="rounded-lg p-2 bg-green-200 text-left mr-2 w-2/3">{}</div>
+            <div className="rounded-lg p-2 bg-green-200 text-left mr-2 w-2/3">{messageTest.initial}</div>
           </div>
         )}
 
@@ -74,7 +135,12 @@ function ChatTest() {
       {loading ? <div className="mt-10 text-blue-500">Waiting...</div> : null}
 
       {chat?.annalys == null && (
-        <form className="flex flex-row mt-auto" onSubmit={async (e) => {}}>
+        <form
+          className="flex flex-row mt-auto"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await handleSend();
+          }}>
           <TextArea
             type="text"
             value={chatInput}
