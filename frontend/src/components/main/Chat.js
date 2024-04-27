@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TextBox from "../TextBox";
+import TextArea from "../TextArea";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Button from "../Button";
@@ -108,7 +108,7 @@ function Chat() {
           e.preventDefault();
           await handleSend();
         }}>
-        <TextBox
+        <TextArea
           type="text"
           Icon={PencilIcon}
           value={chatInput}
