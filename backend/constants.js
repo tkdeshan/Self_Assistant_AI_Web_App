@@ -1,8 +1,10 @@
 const messageTest = {
   promptGnerateInitialQuestion:
-    "I'm seeking career guidance and would appreciate your assistance. Please ask 10 questions from me to understand more about me. I'll provide my answers one by one. Once you've asked the 10th question, please suggest the best career path for me based on the information gathered. let's start. ask the first question.",
+    "I'm seeking career guidance and would appreciate your assistance. Please ask questions of me to understand more about me. I'll provide my answers. Ask one question at a time. The format should be question number and question. Let's start. Ask the first question.",
   promptGnerateNextQuestion:
-    "Ask next question from me. Ask only one question at once. Remember number of questions that you asked. After the 10th question give me a summery of my career path. Condider 5 sutable career path for me and give the presentage for most sutable path.",
+    "Provide another question similar to the previous list for career path analysis. The question format should include the question number and question. Increase the question number by one from the previous list. Provide the next question. Please provide one question at once.",
+  promptAnalysis:
+    "According to the that information analysis the career path. Suggest five career paths and give the presentage that how sutable the career paths. finally provide the the best career path and the roadmap how to grow from that career path beggining to end.",
 };
 
 module.exports = {

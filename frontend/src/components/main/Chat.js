@@ -17,7 +17,7 @@ function Chat() {
   const fetchChats = async () => {
     try {
       const email = localStorage.getItem("email");
-      const response = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat`, {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat`, {
         params: { email: email },
       });
 
@@ -34,13 +34,13 @@ function Chat() {
       setLoading(true);
       let response = null;
       if (chat) {
-        response = await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/chat`, {
+        response = await axios.put(`${process.env.REACT_APP_BASE_URL}/chat`, {
           email: email,
           message: chat.message,
           response: [...chat.response, chatInput],
         });
       } else {
-        response = await axios.post(`https://self-assistant-ai-web-app-backend.vercel.app/chat`, {
+        response = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat`, {
           email: email,
           message: [messageTest.initial],
           response: [chatInput],
@@ -70,32 +70,49 @@ function Chat() {
 
         {chat && (
           <div className="flex flex-col gap-4 w-full">
-            {chat.message &&
-              chat.response &&
-              chat.message.map((message, index) => (
-                <div key={index}>
-                  <div className={"flex justify-start"}>
-                    <div className={"rounded-lg p-2 bg-green-200 w-2/3"}>
-                      {message.includes("\n**") ? (
-                        message
-                          .split("\n")
-                          .map((line, idx) => (
+            {chat.message.map((message, index) => (
+              <div key={index}>
+                <div className={"flex justify-start"}>
+                  <div className={"rounded-lg p-2 bg-green-200 w-2/3"}>
+                    {message.includes("\n**") ? (
+                      message.split("\n").map((line, idx) => {
+                        if (line.startsWith("**")) {
+                          return (
                             <div key={idx}>
-                              {line.trim().startsWith("**") ? <strong>{line.trim()}</strong> : line.trim()}
+                              <strong>{line.trim().replace(/\*+/g, "")}</strong>
+                              <br />
                             </div>
-                          ))
-                      ) : (
-                        <div>{message}</div>
-                      )}
-                    </div>
+                          );
+                        } else if (line.startsWith("*")) {
+                          return (
+                            <div key={idx}>
+                              {line.substring(0, 2)}
+                              <strong>{line.substring(2, line.lastIndexOf(":") + 1)}</strong>
+                              {line.substring(line.lastIndexOf(":") + 1)}
+                              <br />
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div key={idx}>
+                              {line.trim()}
+                              <br />
+                            </div>
+                          );
+                        }
+                      })
+                    ) : (
+                      <div>{message}</div>
+                    )}
                   </div>
-                  {chat.response[index] && (
-                    <div className="flex justify-end mt-5">
-                      <div className={"rounded-lg p-2 bg-blue-200 w-2/3"}>{chat.response[index]}</div>
-                    </div>
-                  )}
                 </div>
-              ))}
+                {chat.response[index] && (
+                  <div className="flex justify-end mt-5">
+                    <div className={"rounded-lg p-2 bg-blue-200 w-2/3"}>{chat.response[index]}</div>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>

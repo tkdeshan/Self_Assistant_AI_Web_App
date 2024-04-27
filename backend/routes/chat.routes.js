@@ -51,22 +51,33 @@ router.put("/", async (req, res) => {
     }
 
     let prompt = "";
-    prompt += `${messageTest.promptGnerateInitialQuestion}\n`;
+    const numQuestion = parseInt(response[0].split(",")[1].trim());
 
-    for (let i = 0; i < Math.max(message.length, response.length); i++) {
-      if (message[i]) {
-        if (i === 0) {
-          continue;
+    if (numQuestion >= message.length) {
+      for (let i = 0; i < Math.max(message.length, response.length); i++) {
+        if (message[i]) {
+          if (i === 0) {
+            continue;
+          }
+          prompt += `${message[i]}\n`;
         }
-        prompt += `${message[i]}\n`;
       }
+      prompt += `${messageTest.promptGnerateNextQuestion}`;
+    } else {
+      for (let i = 0; i < Math.max(message.length, response.length); i++) {
+        if (message[i]) {
+          if (i === 0) {
+            continue;
+          }
+          prompt += `${message[i]}\n`;
+        }
 
-      if (response[i]) {
-        prompt += `${response[i]}\n`;
+        if (response[i]) {
+          prompt += `${response[i]}\n`;
+        }
       }
+      prompt += `${messageTest.promptAnalysis}`;
     }
-
-    prompt += `${messageTest.promptGnerateNextQuestion}`;
 
     const requestData = {
       contents: [
