@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import TextArea from "../TextArea";
+import TextArea from "../../TextArea";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import Button from "../Button";
-const { messageGuide } = require("../../constants");
+import Button from "../../Button";
+const { messageGuide } = require("../../../constants");
 
-function Chat() {
+function ChatGuide() {
   const [chat, setChat] = useState(null);
   const [chatInput, setChatInput] = useState("");
   const [loading, setLoading] = useState(true);
@@ -70,9 +70,7 @@ function Chat() {
   };
 
   return (
-    <div
-      className="flex flex-col px-10 mt-5 h-screen overflow-hidden mx-auto pb-5"
-      style={{ maxHeight: "95%" }}>
+    <div className="flex flex-col mx-auto pb-5" style={{ height: "70vh" }}>
       <div className="flex justify-end">
         <div className="w-20">
           <Button type="button" name="Reset" onClick={handleReset} />
@@ -162,4 +160,4 @@ function Chat() {
   );
 }
 
-export default Chat;
+export default ChatGuide;

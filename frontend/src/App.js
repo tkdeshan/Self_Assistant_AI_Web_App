@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import WelcomePage from "./pages/WelcomePage";
 import RegisterPage from "./pages/RegisterPage";
 import MenuPage from "./pages/MenuPage";
-import Chat from "./components/main/Chat";
+import ChatMenu from "./components/main/ChatMenu";
 import Dashboard from "./components/main/Dashboard";
 import Editprofile from "./components/main/EditProfile";
 
@@ -15,12 +15,9 @@ function App() {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/chat" element={<MenuPage page={<Chat />} />} />
+        <Route path="/chat" element={<MenuPage page={<ChatMenu />} />} />
         <Route path="/dashboard" element={<MenuPage page={<Dashboard />} />} />
-        <Route
-          path="/editprofile"
-          element={<MenuPage page={<Editprofile />} />}
-        />
+        <Route path="/editprofile" element={<MenuPage page={<Editprofile />} />} />
       </Routes>
     </Router>
   );
