@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import TextArea from "../TextArea";
+import TextArea from "../../TextArea";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import Button from "../Button";
-const { messageGuide } = require("../../constants");
+import Button from "../../Button";
+const { messageGuide } = require("../../../constants");
 
-function Chat() {
+function ChatGuide() {
   const [chat, setChat] = useState(null);
   const [chatInput, setChatInput] = useState("");
   const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ function Chat() {
   const fetchChats = async () => {
     try {
       const email = localStorage.getItem("email");
-      const response = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
         params: { email: email },
       });
 
@@ -34,13 +34,13 @@ function Chat() {
       setLoading(true);
       let response = null;
       if (chat) {
-        response = await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
+        response = await axios.put(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
           email: email,
           message: chat.message,
           response: [...chat.response, chatInput],
         });
       } else {
-        response = await axios.post(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
+        response = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
           email: email,
           message: [messageGuide.initial],
           response: [chatInput],
@@ -60,7 +60,7 @@ function Chat() {
   const handleReset = async () => {
     try {
       const email = localStorage.getItem("email");
-      await axios.delete(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
         data: { email: email },
       });
       fetchChats();
@@ -70,9 +70,7 @@ function Chat() {
   };
 
   return (
-    <div
-      className="flex flex-col px-10 mt-5 h-screen overflow-hidden mx-auto pb-5"
-      style={{ maxHeight: "95%" }}>
+    <div className="flex flex-col mx-auto pb-5" style={{ height: "70vh" }}>
       <div className="flex justify-end">
         <div className="w-20">
           <Button type="button" name="Reset" onClick={handleReset} />
@@ -146,7 +144,6 @@ function Chat() {
           }}>
           <TextArea
             type="text"
-            Icon={PencilIcon}
             value={chatInput}
             setValue={setChatInput}
             placeholder="Type your message..."
@@ -162,4 +159,4 @@ function Chat() {
   );
 }
 
-export default Chat;
+export default ChatGuide;
