@@ -3,7 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const userRoutes = require("./routes/user.routes");
-const chatRoutes = require("./routes/chat.routes");
+const chatGuideRoutes = require("./routes/chat.guide.routes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,7 +26,7 @@ db.once("open", () => {
 
 // Routes
 app.use("/user", userRoutes);
-app.use("/chat", chatRoutes);
+app.use("/chat-guide", chatGuideRoutes);
 
 // Start server
 app.listen(PORT, () => {
