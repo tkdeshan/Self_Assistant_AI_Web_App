@@ -3,6 +3,7 @@ import axios from "axios";
 
 function Dashboard(props) {
   const [guideAnnalys, setGuideAnnalys] = useState(null);
+  const [testAnnalys, setTestAnnalys] = useState(null);
 
   useEffect(() => {
     fetchChats();
@@ -11,11 +12,16 @@ function Dashboard(props) {
   const fetchChats = async () => {
     try {
       const email = localStorage.getItem("email");
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
+      const responseGuide = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
         params: { email: email },
       });
 
-      setGuideAnnalys(response.data?.annalys);
+      const responseTest = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+        params: { email: email },
+      });
+
+      setGuideAnnalys(responseGuide.data?.annalys);
+      setTestAnnalys(responseTest.data?.annalys);
     } catch (error) {
       console.error("Failed to fetch chats:", error);
     }
@@ -57,6 +63,19 @@ function Dashboard(props) {
                   );
                 }
               })
+            : "Please first go to chat and follow the steps"}
+        </div>
+      </div>
+
+      <div>
+        <div className="flex justify-center mb-5">
+          <h1 className="text-blue-500 font-bold tracking-wider underline text-xl">
+            Knowledge Testing Analysis
+          </h1>
+        </div>
+        <div>
+          {testAnnalys
+            ? "Skill Level: " + testAnnalys.match(/\*\*Skill level:\*\* (\w+)/)[1]
             : "Please first go to chat and follow the steps"}
         </div>
       </div>
