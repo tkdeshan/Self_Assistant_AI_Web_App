@@ -1,4 +1,4 @@
-const messageTest = {
+const messageGuide = {
   promptGnerateInitialQuestion:
     "I'm seeking career guidance and would appreciate your assistance. Please ask questions of me to understand more about me. I'll provide my answers. Ask one question at a time. The format should be question number and question. Let's start. Ask the first question.",
   promptGnerateNextQuestion:
@@ -8,5 +8,5 @@ const messageTest = {
 };
 
 module.exports = {
-  messageTest: messageTest,
+  messageGuide: messageGuide,
 };

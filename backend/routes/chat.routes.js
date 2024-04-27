@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Chat = require("../models/Chat");
+const ChatGuide = require("../models/ChatGuide");
 const User = require("../models/User");
 const sendRequestToGemini = require("../gemini");
-const { messageTest } = require("../constants");
+const { messageGuide } = require("../constants");
 
 // Create a new chat message
 router.post("/", async (req, res) => {
@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
         {
           parts: [
             {
-              text: messageTest.promptGnerateInitialQuestion,
+              text: messageGuide.promptGnerateInitialQuestion,
             },
           ],
         },
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 
     message.push(textContent);
 
-    const chatMessage = new Chat({
+    const chatMessage = new ChatGuide({
       email,
       message,
       response,
@@ -62,7 +62,7 @@ router.put("/", async (req, res) => {
           prompt += `${message[i]}\n`;
         }
       }
-      prompt += `${messageTest.promptGnerateNextQuestion}`;
+      prompt += `${messageGuide.promptGnerateNextQuestion}`;
     } else {
       for (let i = 0; i < Math.max(message.length, response.length); i++) {
         if (message[i]) {
@@ -76,7 +76,7 @@ router.put("/", async (req, res) => {
           prompt += `${response[i]}\n`;
         }
       }
-      prompt += `${messageTest.promptAnalysis}`;
+      prompt += `${messageGuide.promptAnalysis}`;
     }
 
     const requestData = {
@@ -94,7 +94,7 @@ router.put("/", async (req, res) => {
     const textContent = await sendRequestToGemini(requestData);
     message.push(textContent);
 
-    const updatedChat = await Chat.findOneAndUpdate({ email }, { message, response }, { new: true });
+    const updatedChat = await ChatGuide.findOneAndUpdate({ email }, { message, response }, { new: true });
 
     return res.status(200).json({ message: "Chat message updated successfully", updatedChat });
   } catch (error) {
@@ -113,7 +113,7 @@ router.get("/", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const chat = await Chat.findOne({ email });
+    const chat = await ChatGuide.findOne({ email });
 
     return res.status(200).json(chat);
   } catch (error) {

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const chatSchema = new mongoose.Schema({
+const chatGuideSchema = new mongoose.Schema({
   email: {
     type: String,
     ref: "User",
@@ -24,6 +24,6 @@ const chatSchema = new mongoose.Schema({
   },
 });
 
-const Chat = mongoose.model("Chat", chatSchema);
+const ChatGuide = mongoose.model("Chat", chatGuideSchema);
 
-module.exports = Chat;
+module.exports = ChatGuide;

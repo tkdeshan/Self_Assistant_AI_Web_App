@@ -3,7 +3,7 @@ import TextArea from "../TextArea";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Button from "../Button";
-const { messageTest } = require("../../constants");
+const { messageGuide } = require("../../constants");
 
 function Chat() {
   const [chat, setChat] = useState(null);
@@ -42,7 +42,7 @@ function Chat() {
       } else {
         response = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat`, {
           email: email,
-          message: [messageTest.initial],
+          message: [messageGuide.initial],
           response: [chatInput],
         });
       }
@@ -64,7 +64,7 @@ function Chat() {
       <div className="flex flex-col gap-4 overflow-y-auto mb-10">
         {!chat && (
           <div className="flex justify-start">
-            <div className="rounded-lg p-2 bg-green-200 text-left mr-2 w-2/3">{messageTest.initial}</div>
+            <div className="rounded-lg p-2 bg-green-200 text-left mr-2 w-2/3">{messageGuide.initial}</div>
           </div>
         )}
 
