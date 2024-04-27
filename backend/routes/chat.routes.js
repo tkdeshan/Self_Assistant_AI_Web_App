@@ -44,7 +44,6 @@ router.post("/", async (req, res) => {
 router.put("/", async (req, res) => {
   try {
     const { email, message, response } = req.body;
-    const annalys = null;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -123,6 +122,27 @@ router.get("/", async (req, res) => {
     return res.status(200).json(chat);
   } catch (error) {
     return res.status(500).json({ message: "Failed to retrieve chat messages", error: error.message });
+  }
+});
+
+// Delete a chat message
+router.delete("/", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const deletedChat = await ChatGuide.findOneAndDelete({ email });
+    if (!deletedChat) {
+      return res.status(404).json({ message: "Chat message not found" });
+    }
+
+    return res.status(200).json({ message: "Chat message deleted successfully", deletedChat });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to delete chat message", error: error.message });
   }
 });
 
