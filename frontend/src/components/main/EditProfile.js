@@ -52,7 +52,7 @@ function EditProfile() {
     };
 
     try {
-      const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/user/update/${id}`, userData);
+      const response = await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/user/update/${id}`, userData);
 
       alert(response?.data?.message);
     } catch (error) {
