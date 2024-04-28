@@ -12,11 +12,11 @@ function Dashboard(props) {
   const fetchChats = async () => {
     try {
       const email = localStorage.getItem("email");
-      const responseGuide = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
+      const responseGuide = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
         params: { email: email },
       });
 
-      const responseTest = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+      const responseTest = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat-test`, {
         params: { email: email },
       });
 
