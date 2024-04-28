@@ -16,7 +16,7 @@ function ChatTest() {
   const fetchChats = async () => {
     try {
       const email = localStorage.getItem("email");
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+      const response = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat-test`, {
         params: { email: email },
       });
 
@@ -33,13 +33,13 @@ function ChatTest() {
       setLoading(true);
       let response = null;
       if (chat) {
-        response = await axios.put(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+        response = await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/chat-test`, {
           email: email,
           message: chat.message,
           response: [...chat.response, chatInput],
         });
       } else {
-        response = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+        response = await axios.post(`https://self-assistant-ai-web-app-backend.vercel.app/chat-test`, {
           email: email,
           message: [messageTest.initial],
           response: [chatInput],
@@ -59,7 +59,7 @@ function ChatTest() {
   const handleReset = async () => {
     try {
       const email = localStorage.getItem("email");
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+      await axios.delete(`https://self-assistant-ai-web-app-backend.vercel.app/chat-test`, {
         data: { email: email },
       });
       fetchChats();
