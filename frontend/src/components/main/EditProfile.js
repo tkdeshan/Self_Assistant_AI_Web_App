@@ -62,14 +62,17 @@ function EditProfile() {
 
   return (
     <div className="px-80 mt-10">
-      <div className="flex flex-row justify-center items-center">
+      {/* <div className="flex flex-row justify-center items-center">
         <h2>Change Profile Picture:</h2>
         <div className="w-20 mt-4 ml-5">
           <Button name="Update" />
         </div>
-      </div>
+      </div> */}
 
-      <div className="flex justify-center items-center mt-10">
+      <div className="flex flex-col justify-center items-center mt-10">
+        <p className="font-sans text-gray-400 text-lg text-center font-semibold tracking-widest mb-10">
+          Update Your Information
+        </p>
         <form className="flex flex-col gap-4 mr-10 ml-4" onSubmit={handleUpdate}>
           <TextBox label="Name" type="text" Icon={UserIcon} value={name} setValue={setName} required={true} />
 
