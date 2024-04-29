@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import backgroundImage from "../assests/constants/images/background.jpg";
-import loginImage from "../assests/constants/images/reg.jpg";
+import backgroundImage from "../assests/images/background.jpg";
+import loginImage from "../assests/images/reg.jpg";
 import TextBox from "../components/TextBox";
 import Button from "../components/Button";
 import { UserIcon, EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
