@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import backgroundImage from "../assests/constants/images/background.jpg";
-import loginImage from "../assests/constants/images/login.png";
+import backgroundImage from "../assests/images/background.jpg";
+import loginImage from "../assests/images/login.jpg";
 import TextBox from "../components/TextBox";
 import Button from "../components/Button";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
@@ -90,7 +90,7 @@ const LoginPage = () => {
               <input
                 type="checkbox"
                 id="checkbox"
-                className="h-4 w-4 rounded mr-2 accent-[#0402a8]"
+                className="h-4 w-4 rounded mr-2 accent-[#4f4ded]"
                 checked={remember}
                 onChange={() => setRemember(!remember)}
               />
