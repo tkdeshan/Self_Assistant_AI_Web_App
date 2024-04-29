@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import TextArea from "../../TextArea";
-import { PencilIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Button from "../../Button";
 const { messageGuide } = require("../../../constants");
