@@ -27,7 +27,7 @@ The AI Career Guidance and Knowledge Testing Web Application is a comprehensive 
 ## Technologies
 
 - MERN Stack
-- Open AI API
+- Gemini API
 
 ## Demo
 
