@@ -18,9 +18,12 @@ function EditProfile() {
           alert("Email is required");
         }
 
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/getuserbyemail`, {
-          params: { email },
-        });
+        const response = await axios.get(
+          `https://self-assistant-ai-web-app-backend.vercel.app/user/getuserbyemail`,
+          {
+            params: { email },
+          }
+        );
 
         setId(response.data.user._id);
         setName(response.data.user.name);
@@ -49,7 +52,10 @@ function EditProfile() {
     };
 
     try {
-      const response = await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/user/update/${id}`, userData);
+      const response = await axios.put(
+        `https://self-assistant-ai-web-app-backend.vercel.app/user/update/${id}`,
+        userData
+      );
 
       alert(response?.data?.message);
     } catch (error) {
