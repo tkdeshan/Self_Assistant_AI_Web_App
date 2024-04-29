@@ -30,7 +30,7 @@ const WelcomePage = () => {
       <div className="flex flex-col px-20 py-4">
         <div className="flex flex-row bg-blue-400 bg-opacity-80 rounded-lg">
           <div className="w-1/2 h-60 p-8 flex items-center justify-center">
-            <p className="text-white text-md">
+            <p className="text-white text-md text-justify">
               Do you want career guidance?
               <br />
               <br />
@@ -45,7 +45,7 @@ const WelcomePage = () => {
         </div>
         <div className="flex flex-row bg-blue-400 bg-opacity-80 mt-5 rounded-lg">
           <div className="w-1/2 h-60 p-8 flex items-center justify-center">
-            <p className="text-white text-md">
+            <p className="text-white text-md text-justify">
               Do you want to test your knowledge level in skills?
               <br />
               <br />
