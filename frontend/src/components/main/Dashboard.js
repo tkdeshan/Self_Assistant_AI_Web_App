@@ -28,10 +28,10 @@ function Dashboard() {
       <div className="flex flex-col w-1/2 mb-5">
         <h1 className="text-gray-500 font-bold tracking-wider underline text-xl">Career Guidance Analysis</h1>
 
-        {careerAnnalys.length > 0 ? (
+        {careerAnnalys?.length > 0 ? (
           <div className="flex flex-col ml-4">
-            {careerAnnalys.map((item, idx) => (
-              <div className="flex flex-row gap-5 mt-2" key={idx}>
+            {careerAnnalys?.map((item, idx) => (
+              <div className="flex flex-row gap-5 mt-5" key={idx}>
                 <div className="">
                   {item.summary.split("\n").map((line, index) => {
                     if (line.startsWith("**")) {
@@ -62,28 +62,11 @@ function Dashboard() {
       <div className="flex flex-col w-1/2 mb-5">
         <h1 className="text-gray-500 font-bold tracking-wider underline text-xl"> Knowledge Test Analysis</h1>
 
-        {careerAnnalys.length > 0 ? (
+        {testAnnalys?.length > 0 ? (
           <div className="flex flex-col ml-4">
-            {careerAnnalys.map((item, idx) => (
-              <div className="flex flex-row gap-5 mt-2" key={idx}>
-                <div className="">
-                  {item.summary.split("\n").map((line, index) => {
-                    if (line.startsWith("**")) {
-                      return (
-                        <div key={index}>
-                          <strong>{line.trim().replace(/\*+/g, "")}</strong>
-                          <br />
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <div className="" key={index}>
-                          {line}
-                        </div>
-                      );
-                    }
-                  })}
-                </div>
+            {testAnnalys?.map((item, idx) => (
+              <div className="flex flex-row gap-5 mt-5" key={idx}>
+                <div>{item?.summary}</div>
                 <div>{new Date(item?.date).toLocaleString()}</div>
               </div>
             ))}
