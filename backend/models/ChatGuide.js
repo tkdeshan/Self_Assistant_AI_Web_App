@@ -18,9 +18,7 @@ const chatGuideSchema = new mongoose.Schema({
       required: true,
     },
   ],
-  annalys: {
-    type: String,
-  },
+  disable: { type: Boolean, default: false },
   timestamp: {
     type: Date,
     default: Date.now,

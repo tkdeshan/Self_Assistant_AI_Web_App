@@ -1,112 +1,148 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Chart from "../Chart";
+import Button from "../Button";
 
-function Dashboard(props) {
-  const [guideAnnalys, setGuideAnnalys] = useState(null);
+function Dashboard() {
+  const [careerAnnalys, setCareerAnnalys] = useState(null);
   const [testAnnalys, setTestAnnalys] = useState(null);
 
   useEffect(() => {
-    fetchChats();
+    fetchAnnalys();
   }, []);
 
-  const fetchChats = async () => {
+  const fetchAnnalys = async () => {
     try {
       const email = localStorage.getItem("email");
-      const responseGuide = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
+      const Annalys = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/annalys`, {
         params: { email: email },
       });
 
-      const responseTest = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat-test`, {
-        params: { email: email },
-      });
-
-      setGuideAnnalys(responseGuide.data?.annalys);
-      setTestAnnalys(responseTest.data?.annalys);
+      setCareerAnnalys(Annalys.data?.careerAnnalys);
+      setTestAnnalys(Annalys.data?.testAnnalys);
     } catch (error) {
       console.error("Failed to fetch chats:", error);
     }
   };
 
-  return (
-    <div className="flex flex-col p-8 h-screen overflow-auto" style={{ maxHeight: "100%" }}>
-      {!guideAnnalys && !testAnnalys && <div>Please first go to chat and follow the steps...</div>}
-      {guideAnnalys && (
-        <div>
-          <div className="flex justify-center mb-5">
-            <h1 className="text-blue-500 font-bold tracking-wider underline text-xl">
-              Career Guidance Analysis
-            </h1>
-          </div>
-          <div>
-            {guideAnnalys &&
-              guideAnnalys.split("\n").map((line, idx) => {
-                if (line.startsWith("**")) {
-                  return (
-                    <div key={idx}>
-                      <strong>{line.trim().replace(/\*+/g, "")}</strong>
-                      <br />
-                    </div>
-                  );
-                } else if (line.startsWith("*")) {
-                  return (
-                    <div key={idx}>
-                      {line.substring(0, 2)}
-                      <strong>{line.substring(2, line.lastIndexOf(":") + 1)}</strong>
-                      {line.substring(line.lastIndexOf(":") + 1)}
-                      <br />
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={idx}>
-                      {line.trim()}
-                      <br />
-                    </div>
-                  );
-                }
-              })}
-          </div>
-        </div>
-      )}
+  const resetCareerAnnalys = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/annalys`, {
+        email: email,
+        newCareerSummary: [],
+      });
+      fetchAnnalys();
+    } catch (error) {
+      console.error("Failed to reset career annalys:", error);
+    }
+  };
 
-      {testAnnalys && (
-        <div>
-          <div className="flex justify-center mb-5">
-            <h1 className="text-blue-500 font-bold tracking-wider underline text-xl">
-              Knowledge Testing Analysis
-            </h1>
+  const resetTestAnnalys = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/annalys`, {
+        email: email,
+        newTestSummary: [],
+      });
+      fetchAnnalys();
+    } catch (error) {
+      console.error("Failed to reset test annalys:", error);
+    }
+  };
+
+  return (
+    <div className="flex flex-row gap-4 px-8 py-4 h-screen overflow-auto" style={{ maxHeight: "100%" }}>
+      <div className="flex flex-col w-1/2 p-4 bg-green-200 rounded-md shadow-md overflow-auto">
+        <h1 className="text-gray-500 font-bold tracking-wider underline text-xl text-center">
+          Career Guidance Analysis
+        </h1>
+
+        {careerAnnalys?.length > 0 ? (
+          <div className="flex flex-col ml-4 mt-2">
+            <div className="flex justify-end">
+              <div className="w-20">
+                <Button type="button" name="Reset" onClick={resetCareerAnnalys} />
+              </div>
+            </div>
+
+            {careerAnnalys?.map((item, idx) => (
+              <div>
+                <div className="flex flex-row gap-10 mt-2 mb-5" key={idx}>
+                  <div>
+                    <div>
+                      {new Date(item?.date).toLocaleDateString(undefined, { day: "numeric", month: "long" })},{" "}
+                      {new Date(item?.date).toLocaleTimeString(undefined, {
+                        hour: "numeric",
+                        minute: "numeric",
+                        hour12: true,
+                      })}
+                    </div>
+                  </div>
+                  <div className="">
+                    {item.summary.split(",").map((line, index) => {
+                      const [profession, score] = line.trim().split(":");
+                      return (
+                        <div key={index}>
+                          <span>{profession}</span> : <span>{score} %</span>
+                          {index !== item.summary.split(",").length - 1 && <br />}{" "}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="rounded-md">
+              <Chart type="pie" chartData={careerAnnalys} />
+            </div>
           </div>
-          <div>
-            {testAnnalys &&
-              testAnnalys.split("\n").map((line, idx) => {
-                if (line.startsWith("**")) {
-                  return (
-                    <div key={idx}>
-                      <strong>{line.trim().replace(/\*+/g, "")}</strong>
-                      <br />
-                    </div>
-                  );
-                } else if (line.startsWith("*")) {
-                  return (
-                    <div key={idx}>
-                      {line.substring(0, 2)}
-                      <strong>{line.substring(2, line.lastIndexOf(":") + 1)}</strong>
-                      {line.substring(line.lastIndexOf(":") + 1)}
-                      <br />
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={idx}>
-                      {line.trim()}
-                      <br />
-                    </div>
-                  );
-                }
-              })}
+        ) : (
+          <div className="mt-1">Please first go to chat and follow the steps...</div>
+        )}
+      </div>
+
+      <div className="flex flex-col w-1/2 p-4 bg-green-200 rounded-md shadow-md overflow-auto">
+        <h1 className="text-gray-500 font-bold tracking-wider underline text-xl text-center">
+          Knowledge Test Analysis
+        </h1>
+
+        {testAnnalys?.length > 0 ? (
+          <div className="flex flex-col ml-4 mt-2">
+            <div className="flex justify-end">
+              <div className="w-20">
+                <Button type="button" name="Reset" onClick={resetTestAnnalys} />
+              </div>
+            </div>
+            {testAnnalys?.map((item, idx) => (
+              <div className="flex flex-row gap-10" key={idx}>
+                <div>
+                  <div>
+                    {new Date(item?.date).toLocaleDateString(undefined, { day: "numeric", month: "long" })},{" "}
+                    {new Date(item?.date).toLocaleTimeString(undefined, {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                    })}
+                  </div>
+                </div>
+                <div>{item?.summary}</div>
+              </div>
+            ))}
+            <div className="mt-4 rounded-md">
+              <Chart type="column" chartData={testAnnalys} />
+            </div>
+            <div className="flex flex-row gap-4 justify-between bg-yellow-100 p-2">
+              <p>1 - Beginner</p>
+              <p>2 - Intermediate</p>
+              <p>3 - Advanced</p>
+              <p>4 - Expert</p>
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="mt-1">Please first go to chat and follow the steps...</div>
+        )}
+      </div>
     </div>
   );
 }

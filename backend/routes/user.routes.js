@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const Annalys = require("../models/Annalys");
 
 // Register a new user
 router.post("/register", async (req, res) => {
@@ -14,6 +15,19 @@ router.post("/register", async (req, res) => {
 
     const user = new User({ name, email, password });
     await user.save();
+
+    const newAnnalys = new Annalys({
+      email,
+      testAnnalys: [],
+      careerAnnalys: [],
+    });
+
+    await newAnnalys.save();
+
+    if (!res) {
+      return res.status(400).json({ code: 14012, message: "Annalys doc create successfully" });
+    }
+
     return res.status(201).json({ code: 14001, message: "User registered successfully" });
   } catch (error) {
     return res.status(400).json({

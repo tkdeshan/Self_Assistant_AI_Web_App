@@ -20,11 +20,14 @@ const RegisterPage = () => {
       return;
     }
     try {
-      const response = await axios.post(`https://self-assistant-ai-web-app-backend.vercel.app/user/register`, {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `https://self-assistant-ai-web-app-backend.vercel.app/user/register`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
 
       setName("");
       setEmail("");

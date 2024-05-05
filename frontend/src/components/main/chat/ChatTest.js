@@ -34,6 +34,7 @@ function ChatTest({ visible, onClose }) {
       let response = null;
       if (chat) {
         response = await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/chat-test`, {
+          id: chat._id,
           email: email,
           message: chat.message,
           response: [...chat.response, chatInput],
@@ -56,29 +57,17 @@ function ChatTest({ visible, onClose }) {
     }
   };
 
-  const handleReset = async () => {
-    try {
-      const email = localStorage.getItem("email");
-      await axios.delete(`https://self-assistant-ai-web-app-backend.vercel.app/chat-test`, {
-        data: { email: email },
-      });
-      fetchChats();
-    } catch (error) {
-      console.error("Failed to reset chat:", error);
-    }
-  };
-
   return (
     <>
       {" "}
       {!visible ? null : (
-        <div className="flex flex-col mx-auto pb-5" style={{ height: "70vh" }}>
+        <div className="flex flex-col mx-auto pb-5" style={{ height: "80vh" }}>
           <div className="flex justify-between mb-5">
             <div className="w-20">
               <Button type="button" name="Back" onClick={onClose} />
             </div>
-            <div className="w-20">
-              <Button type="button" name="Reset" onClick={handleReset} />
+            <div className="w-32">
+              <Button type="button" name="New Chat" onClick={() => setChat(null)} />
             </div>
           </div>
 
@@ -94,7 +83,7 @@ function ChatTest({ visible, onClose }) {
                 {chat.message.map((message, index) => (
                   <div key={index}>
                     <div className={"flex justify-start"}>
-                      <div className={"rounded-lg p-2 bg-green-200 w-2/3"}>
+                      <div className={"p-2 bg-green-200 w-2/3 rounded-md shadow-md"}>
                         {message.includes("\n**") ? (
                           message.split("\n").map((line, idx) => {
                             if (line.startsWith("**")) {
@@ -129,7 +118,9 @@ function ChatTest({ visible, onClose }) {
                     </div>
                     {chat.response[index] && (
                       <div className="flex justify-end mt-5">
-                        <div className={"rounded-lg p-2 bg-blue-200 w-2/3"}>{chat.response[index]}</div>
+                        <div className={"p-2 bg-blue-200 w-2/3 rounded-md shadow-md"}>
+                          {chat.response[index]}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -140,7 +131,7 @@ function ChatTest({ visible, onClose }) {
 
           {loading ? <div className="mt-10 text-blue-500">Waiting...</div> : null}
 
-          {chat?.annalys == null && (
+          {chat?.disable ? null : (
             <form
               className="flex flex-row mt-auto"
               onSubmit={async (e) => {
@@ -155,7 +146,7 @@ function ChatTest({ visible, onClose }) {
                 required={true}
               />
 
-              <div className="w-20">
+              <div className="w-20 flex items-center bg-blue-600 rounded-r-md">
                 <Button type="submit" name="Send" />
               </div>
             </form>

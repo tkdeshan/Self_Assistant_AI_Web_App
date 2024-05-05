@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ChatTest = require("../models/ChatTest");
 const User = require("../models/User");
+const Annalys = require("../models/Annalys");
 const sendRequestToGemini = require("../gemini");
 const { messageTest } = require("../constants");
 
@@ -12,19 +13,7 @@ router.post("/", async (req, res) => {
 
     const skill = response[0].split(",")[0].trim();
 
-    const requestData = {
-      contents: [
-        {
-          parts: [
-            {
-              text: messageTest.promptGnerateInitialQuestion + " " + skill,
-            },
-          ],
-        },
-      ],
-    };
-
-    const textContent = await sendRequestToGemini(requestData);
+    const textContent = await sendRequestToGemini(messageTest.promptGnerateInitialQuestion + " " + skill);
 
     message.push(textContent);
 
@@ -45,7 +34,7 @@ router.post("/", async (req, res) => {
 // Update an existing chat message
 router.put("/", async (req, res) => {
   try {
-    const { email, message, response } = req.body;
+    const { id, email, message, response } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -82,26 +71,38 @@ router.put("/", async (req, res) => {
       prompt += `${messageTest.promptAnalysis} ${skill}`;
     }
 
-    const requestData = {
-      contents: [
-        {
-          parts: [
-            {
-              text: prompt,
-            },
-          ],
-        },
-      ],
-    };
-
-    const textContent = await sendRequestToGemini(requestData);
+    const textContent = await sendRequestToGemini(prompt);
     message.push(textContent);
 
     const updatedChat = await ChatTest.findOneAndUpdate(
-      { email },
-      { message, response, annalys: numQuestion + 2 > message.length ? null : textContent },
+      { _id: id },
+      { message, response, disable: numQuestion + 2 > message.length ? false : true },
       { new: true }
     );
+
+    if (!(numQuestion + 2 > message.length)) {
+      const prompt = textContent + " " + messageTest.summaryAnalysis + " " + skill;
+
+      const textSummary = await sendRequestToGemini(prompt);
+
+      if (textSummary) {
+        const existingAnnalys = await Annalys.findOne({ email });
+
+        if (existingAnnalys) {
+          updatedAnnalys = await Annalys.findOneAndUpdate(
+            { email },
+            { $push: { testAnnalys: { summary: textSummary } } },
+            { new: true }
+          );
+        } else {
+          const newAnnalys = new Annalys({
+            email,
+            testAnnalys: [{ summary: textSummary }],
+          });
+          updatedAnnalys = await newAnnalys.save();
+        }
+      }
+    }
 
     return res.status(200).json({ message: "Chat message updated successfully", updatedChat });
   } catch (error) {
@@ -120,7 +121,7 @@ router.get("/", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const chat = await ChatTest.findOne({ email });
+    const chat = await ChatTest.findOne({ email }).sort({ timestamp: -1 }).limit(1);
 
     return res.status(200).json(chat);
   } catch (error) {

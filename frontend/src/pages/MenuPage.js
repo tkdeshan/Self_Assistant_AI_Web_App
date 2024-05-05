@@ -6,7 +6,6 @@ import {
   PencilSquareIcon,
   EyeIcon,
   ArrowLeftStartOnRectangleIcon,
-  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 
 const MenuPage = ({ page }) => {
@@ -14,10 +13,9 @@ const MenuPage = ({ page }) => {
 
   return (
     <div className="flex flex-row h-screen w-full bg-gray-100">
-      <div className="h-screen w-1/6 bg-blue-600">
+      <div className="h-screen w-1/6 bg-blue-600 shadow-md">
         <div className="flex flex-row justify-center r w-full p-3 border-b border-gray-100">
-          <img src={logo} alt="Login" className="w-10 h-11 ml-2" />
-          <div className="font-serif text-2xl text-white tracking-widest ml-5 py-1">Tech Pack</div>
+          <div className="font-serif text-2xl text-white tracking-widest  py-1">AI Self Assistant</div>
         </div>
         <div className="flex flex-col">
           <Link
@@ -56,9 +54,10 @@ const MenuPage = ({ page }) => {
         </div>
       </div>
       <div className="flex flex-col w-5/6 pb-5">
-        <div className="flex flex-row-reverse w-full bg-blue-600 p-3">
-          <UserCircleIcon className="w-10 h-11 mx-5 text-white" />
+        <div className="flex flex-row-reverse w-full bg-blue-600 p-3 shadow-md">
+          <img src={logo} alt="Login" className="w-10 h-10 rounded-xl mr-6" />
         </div>
+
         <div style={{ maxHeight: "90%" }}>{page}</div>
       </div>
     </div>
