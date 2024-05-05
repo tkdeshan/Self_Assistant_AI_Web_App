@@ -62,10 +62,10 @@ function ChatTest({ visible, onClose }) {
       {!visible ? null : (
         <div className="flex flex-col mx-auto pb-5" style={{ height: "78vh" }}>
           <div className="flex justify-between mb-5">
-            <div className="w-32">
+            <div className="w-20">
               <Button type="button" name="Back" onClick={onClose} />
             </div>
-            <div className="w-20">
+            <div className="w-32">
               <Button type="button" name="New Chat" onClick={() => setChat(null)} />
             </div>
           </div>
