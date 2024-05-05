@@ -14,7 +14,7 @@ function Dashboard() {
   const fetchAnnalys = async () => {
     try {
       const email = localStorage.getItem("email");
-      const Annalys = await axios.get(`${process.env.REACT_APP_BASE_URL}/annalys`, {
+      const Annalys = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/annalys`, {
         params: { email: email },
       });
 
@@ -28,7 +28,7 @@ function Dashboard() {
   const resetCareerAnnalys = async () => {
     try {
       const email = localStorage.getItem("email");
-      await axios.put(`${process.env.REACT_APP_BASE_URL}/annalys`, {
+      await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/annalys`, {
         email: email,
         newCareerSummary: [],
       });
@@ -41,7 +41,7 @@ function Dashboard() {
   const resetTestAnnalys = async () => {
     try {
       const email = localStorage.getItem("email");
-      await axios.put(`${process.env.REACT_APP_BASE_URL}/annalys`, {
+      await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/annalys`, {
         email: email,
         newTestSummary: [],
       });

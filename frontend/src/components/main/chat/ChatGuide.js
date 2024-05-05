@@ -16,7 +16,7 @@ function ChatGuide({ visible, onClose }) {
   const fetchChats = async () => {
     try {
       const email = localStorage.getItem("email");
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
+      const response = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
         params: { email: email },
       });
 
@@ -33,14 +33,14 @@ function ChatGuide({ visible, onClose }) {
       setLoading(true);
       let response = null;
       if (chat) {
-        response = await axios.put(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
+        response = await axios.put(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
           id: chat._id,
           email: email,
           message: chat.message,
           response: [...chat.response, chatInput],
         });
       } else {
-        response = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
+        response = await axios.post(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
           email: email,
           message: [messageGuide.initial],
           response: [chatInput],
