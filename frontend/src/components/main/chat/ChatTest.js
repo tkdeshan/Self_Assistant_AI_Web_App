@@ -83,7 +83,7 @@ function ChatTest({ visible, onClose }) {
                 {chat.message.map((message, index) => (
                   <div key={index}>
                     <div className={"flex justify-start"}>
-                      <div className={"rounded-lg p-2 bg-green-200 w-2/3"}>
+                      <div className={"p-2 bg-green-200 w-2/3 rounded-md shadow-md"}>
                         {message.includes("\n**") ? (
                           message.split("\n").map((line, idx) => {
                             if (line.startsWith("**")) {
@@ -118,7 +118,9 @@ function ChatTest({ visible, onClose }) {
                     </div>
                     {chat.response[index] && (
                       <div className="flex justify-end mt-5">
-                        <div className={"rounded-lg p-2 bg-blue-200 w-2/3"}>{chat.response[index]}</div>
+                        <div className={"p-2 bg-blue-200 w-2/3 rounded-md shadow-md"}>
+                          {chat.response[index]}
+                        </div>
                       </div>
                     )}
                   </div>

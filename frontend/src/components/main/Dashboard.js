@@ -24,8 +24,8 @@ function Dashboard() {
   };
 
   return (
-    <div className="flex flex-row px-8 py-4 h-screen overflow-auto" style={{ maxHeight: "100%" }}>
-      <div className="flex flex-col w-1/2 mb-5">
+    <div className="flex flex-row gap-4 px-8 py-4 h-screen overflow-auto" style={{ maxHeight: "100%" }}>
+      <div className="flex flex-col w-1/2 p-4 bg-green-200 rounded-md shadow-md">
         <h1 className="text-gray-500 font-bold tracking-wider underline text-xl">Career Guidance Analysis</h1>
 
         {careerAnnalys?.length > 0 ? (
@@ -59,8 +59,8 @@ function Dashboard() {
         )}
       </div>
 
-      <div className="flex flex-col w-1/2 mb-5">
-        <h1 className="text-gray-500 font-bold tracking-wider underline text-xl"> Knowledge Test Analysis</h1>
+      <div className="flex flex-col w-1/2 p-4 bg-green-200 rounded-md shadow-md">
+        <h1 className="text-gray-500 font-bold tracking-wider underline text-xl">Knowledge Test Analysis</h1>
 
         {testAnnalys?.length > 0 ? (
           <div className="flex flex-col ml-4">
