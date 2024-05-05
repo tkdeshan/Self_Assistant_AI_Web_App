@@ -58,7 +58,7 @@ const ChatMenu = () => {
       {chatType === "guidance" && (
         <div>
           <div className="flex justify-center">
-            <h1 className="text-blue-500 font-bold tracking-wider text-xl">Get Career Guidence</h1>
+            <h1 className="text-gray-500 font-bold tracking-wider text-xl">Get Career Guidence</h1>
           </div>
           <ChatGuide
             visible={isChatVisible}
@@ -72,7 +72,7 @@ const ChatMenu = () => {
       {chatType === "testing" && (
         <div>
           <div className="flex justify-center">
-            <h1 className="text-blue-500 font-bold tracking-wider text-xl">Knowledge Level Testing</h1>
+            <h1 className="text-gray-500 font-bold tracking-wider text-xl">Knowledge Level Testing</h1>
           </div>
           <ChatTest
             visible={isChatVisible}
