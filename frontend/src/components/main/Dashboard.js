@@ -60,9 +60,12 @@ function Dashboard() {
 
         {careerAnnalys?.length > 0 ? (
           <div className="flex flex-col ml-4 mt-2">
-            <div className="w-20">
-              <Button type="button" name="Reset" onClick={resetCareerAnnalys} />
+            <div className="flex justify-end">
+              <div className="w-20">
+                <Button type="button" name="Reset" onClick={resetCareerAnnalys} />
+              </div>
             </div>
+
             {careerAnnalys?.map((item, idx) => (
               <div>
                 <div className="flex flex-row gap-10 mt-2 mb-5" key={idx}>
@@ -90,7 +93,9 @@ function Dashboard() {
                 </div>
               </div>
             ))}
-            <Chart type="pie" chartData={careerAnnalys} />
+            <div className="rounded-md">
+              <Chart type="pie" chartData={careerAnnalys} />
+            </div>
           </div>
         ) : (
           <div className="mt-1">Please first go to chat and follow the steps...</div>
@@ -104,8 +109,10 @@ function Dashboard() {
 
         {testAnnalys?.length > 0 ? (
           <div className="flex flex-col ml-4 mt-2">
-            <div className="w-20">
-              <Button type="button" name="Reset" onClick={resetTestAnnalys} />
+            <div className="flex justify-end">
+              <div className="w-20">
+                <Button type="button" name="Reset" onClick={resetTestAnnalys} />
+              </div>
             </div>
             {testAnnalys?.map((item, idx) => (
               <div className="flex flex-row gap-10" key={idx}>
@@ -122,7 +129,7 @@ function Dashboard() {
                 <div>{item?.summary}</div>
               </div>
             ))}
-            <div className="mt-4">
+            <div className="mt-4 rounded-md">
               <Chart type="column" chartData={testAnnalys} />
             </div>
             <div className="flex flex-row gap-4 justify-between bg-yellow-100 p-2">
