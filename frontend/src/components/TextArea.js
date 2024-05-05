@@ -11,7 +11,7 @@ function TextArea({ label = null, placeholder = "", value, setValue, required = 
   }, [value]);
 
   return (
-    <div className="relative border-2 border-gray-300 w-full rounded mb-5">
+    <div className="relative border-2 border-gray-300 w-full rounded">
       {label && (
         <label className="absolute top-[-12px] left-2 bg-white px-1 text-gray-400 text-sm font-regular font-zenkaku">
           {label}
@@ -24,7 +24,7 @@ function TextArea({ label = null, placeholder = "", value, setValue, required = 
           value={value}
           onChange={(e) => setValue(e.target.value)}
           className="appearance-none bg-transparent border-none w-full h-full text-gray-700 p-1 leading-tight focus:outline-none resize-none"
-          style={{ minHeight: "50px", maxHeight: "200px", overflowY: "auto" }}
+          style={{ minHeight: "20px", maxHeight: "200px", overflowY: "auto" }}
           required={required}
         />
       </div>
