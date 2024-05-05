@@ -20,7 +20,7 @@ const RegisterPage = () => {
       return;
     }
     try {
-      const response = await axios.post(`https://self-assistant-ai-web-app-backend.vercel.app/user/register`, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/register`, {
         name,
         email,
         password,
