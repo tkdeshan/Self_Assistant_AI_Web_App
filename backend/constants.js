@@ -5,7 +5,8 @@ const messageGuide = {
     "Provide another question similar to the previous list for career path analysis. The question format should include the question number and question. Increase the question number by one from the previous list. Provide the next question. Please provide one question at once.",
   promptAnalysis:
     "According to the that information analysis the career path. Suggest five career paths and give the presentage that how sutable the career paths. finally provide the the best career path and the roadmap how to grow from that career path beggining to end.",
-  summaryAnalysis: "Please only give the career paths and prsentage only.",
+  summaryAnalysis:
+    "Please only give the career paths and prsentage only. seperate ecah one by a commar. donont provide any additional data. Format it field 1: 80, field 2: 50 .... likewice. Plece ecach presentage provide with perticuler field name.",
 };
 
 const messageTest = {

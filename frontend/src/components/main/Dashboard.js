@@ -47,27 +47,20 @@ function Dashboard() {
                     </div>
                   </div>
                   <div className="">
-                    {item.summary.split("\n").map((line, index) => {
-                      if (line.startsWith("**")) {
-                        return (
-                          <div key={index}>
-                            <strong>{line.trim().replace(/\*+/g, "")}</strong>
-                            <br />
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div className="" key={index}>
-                            {line}
-                          </div>
-                        );
-                      }
+                    {item.summary.split(",").map((line, index) => {
+                      const [profession, score] = line.trim().split(":");
+                      return (
+                        <div key={index}>
+                          <span>{profession}</span> : <span>{score} %</span>
+                          {index !== item.summary.split(",").length - 1 && <br />}{" "}
+                        </div>
+                      );
                     })}
                   </div>
                 </div>
-                <Chart type="pie" chartData={careerAnnalys} />
               </div>
             ))}
+            <Chart type="pie" chartData={careerAnnalys} />
           </div>
         ) : (
           <div className="mt-1">Please first go to chat and follow the steps...</div>
@@ -98,6 +91,12 @@ function Dashboard() {
             ))}
             <div className="mt-4">
               <Chart type="column" chartData={testAnnalys} />
+            </div>
+            <div className="flex flex-row gap-4 justify-between bg-yellow-100 p-2">
+              <p>1 - Beginner</p>
+              <p>2 - Intermediate</p>
+              <p>3 - Advanced</p>
+              <p>4 - Expert</p>
             </div>
           </div>
         ) : (

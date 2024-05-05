@@ -9,6 +9,7 @@ const Chart = ({ type, chartData }) => {
   useEffect(() => {
     if (type === "column") {
       const summaries = chartData.map((item) => item.summary);
+
       const summaryData = summaries.map((summary, index) => {
         const [skill, level] = summary.split(" : ");
         let x = 0;
@@ -24,35 +25,48 @@ const Chart = ({ type, chartData }) => {
 
         return { name: skill, y: x };
       });
+      console.log(summaryData);
+      setData(summaryData);
+    }
 
+    if (type === "pie") {
+      const summaries = chartData.map((item) => item.summary.split(",")).flat();
+
+      const summaryData = summaries.map((summary, index) => {
+        const [skill, level] = summary.split(":");
+        const trimmedLevel = parseInt(level.trim());
+        return { name: skill.trim(), y: trimmedLevel };
+      });
+
+      console.log(summaryData);
       setData(summaryData);
     }
 
     const chartConfig = {
       chart: {
         type: type,
+        height: 250,
+      },
+      title: {
+        text: null,
       },
       xAxis: {
-        xAxis: {
-          type: "category",
-        },
-        title: {
-          text: null,
-        },
-
+        type: "category",
         min: 0,
         max: 5,
         scrollbar: {
           enabled: true,
         },
         tickLength: 0,
+        title: {
+          text: null,
+        },
       },
       yAxis: {
         title: {
           text: null,
         },
       },
-
       series: [
         {
           name: "Skills",
