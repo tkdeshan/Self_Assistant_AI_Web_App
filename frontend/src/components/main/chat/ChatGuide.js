@@ -128,7 +128,7 @@ function ChatGuide({ visible, onClose }) {
 
           {loading ? <div className="mt-10 text-blue-500">Waiting...</div> : null}
 
-          {chat?.annalys == null && (
+          {chat?.disable ? null : (
             <form
               className="flex flex-row mt-auto"
               onSubmit={async (e) => {

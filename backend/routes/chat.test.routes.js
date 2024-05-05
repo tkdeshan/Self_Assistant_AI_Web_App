@@ -98,7 +98,11 @@ router.put("/", async (req, res) => {
     const textContent = await sendRequestToGemini(requestData);
     message.push(textContent);
 
-    const updatedChat = await ChatTest.findOneAndUpdate({ _id: id }, { message, response }, { new: true });
+    const updatedChat = await ChatTest.findOneAndUpdate(
+      { _id: id },
+      { message, response, disable: numQuestion + 2 > message.length ? false : true },
+      { new: true }
+    );
 
     if (!(numQuestion + 2 > message.length)) {
       const prompt = textContent + " " + messageTest.summaryAnalysis + " " + skill;

@@ -18,6 +18,7 @@ const chatGuideSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  disable: { type: Boolean, default: false },
   timestamp: {
     type: Date,
     default: Date.now,
