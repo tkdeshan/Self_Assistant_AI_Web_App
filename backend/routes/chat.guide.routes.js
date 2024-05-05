@@ -11,20 +11,7 @@ router.post("/", async (req, res) => {
   try {
     const { email, message, response } = req.body;
 
-    const requestData = {
-      contents: [
-        {
-          parts: [
-            {
-              text: messageGuide.promptGnerateInitialQuestion,
-            },
-          ],
-        },
-      ],
-    };
-
-    const textContent = await sendRequestToGemini(requestData);
-
+    const textContent = await sendRequestToGemini(messageGuide.promptGnerateInitialQuestion);
     message.push(textContent);
 
     const chatMessage = new ChatGuide({
@@ -80,19 +67,7 @@ router.put("/", async (req, res) => {
       prompt += `${messageGuide.promptAnalysis}`;
     }
 
-    const requestData = {
-      contents: [
-        {
-          parts: [
-            {
-              text: prompt,
-            },
-          ],
-        },
-      ],
-    };
-
-    const textContent = await sendRequestToGemini(requestData);
+    const textContent = await sendRequestToGemini(prompt);
     message.push(textContent);
 
     const updatedChat = await ChatGuide.findOneAndUpdate(
@@ -103,19 +78,8 @@ router.put("/", async (req, res) => {
 
     if (!(numQuestion + 2 > message.length)) {
       const prompt = textContent + " " + messageGuide.summaryAnalysis;
-      const requestData = {
-        contents: [
-          {
-            parts: [
-              {
-                text: prompt,
-              },
-            ],
-          },
-        ],
-      };
 
-      const textSummary = await sendRequestToGemini(requestData);
+      const textSummary = await sendRequestToGemini(prompt);
 
       if (textSummary) {
         const existingAnnalys = await Annalys.findOne({ email });

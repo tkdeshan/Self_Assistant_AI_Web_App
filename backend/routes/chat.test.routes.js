@@ -13,19 +13,7 @@ router.post("/", async (req, res) => {
 
     const skill = response[0].split(",")[0].trim();
 
-    const requestData = {
-      contents: [
-        {
-          parts: [
-            {
-              text: messageTest.promptGnerateInitialQuestion + " " + skill,
-            },
-          ],
-        },
-      ],
-    };
-
-    const textContent = await sendRequestToGemini(requestData);
+    const textContent = await sendRequestToGemini(messageTest.promptGnerateInitialQuestion + " " + skill);
 
     message.push(textContent);
 
@@ -83,19 +71,7 @@ router.put("/", async (req, res) => {
       prompt += `${messageTest.promptAnalysis} ${skill}`;
     }
 
-    const requestData = {
-      contents: [
-        {
-          parts: [
-            {
-              text: prompt,
-            },
-          ],
-        },
-      ],
-    };
-
-    const textContent = await sendRequestToGemini(requestData);
+    const textContent = await sendRequestToGemini(prompt);
     message.push(textContent);
 
     const updatedChat = await ChatTest.findOneAndUpdate(
@@ -106,19 +82,8 @@ router.put("/", async (req, res) => {
 
     if (!(numQuestion + 2 > message.length)) {
       const prompt = textContent + " " + messageTest.summaryAnalysis + " " + skill;
-      const requestData = {
-        contents: [
-          {
-            parts: [
-              {
-                text: prompt,
-              },
-            ],
-          },
-        ],
-      };
 
-      const textSummary = await sendRequestToGemini(requestData);
+      const textSummary = await sendRequestToGemini(prompt);
 
       if (textSummary) {
         const existingAnnalys = await Annalys.findOne({ email });
