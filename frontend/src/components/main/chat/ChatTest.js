@@ -56,29 +56,17 @@ function ChatTest({ visible, onClose }) {
     }
   };
 
-  const handleReset = async () => {
-    try {
-      const email = localStorage.getItem("email");
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
-        data: { email: email },
-      });
-      fetchChats();
-    } catch (error) {
-      console.error("Failed to reset chat:", error);
-    }
-  };
-
   return (
     <>
       {" "}
       {!visible ? null : (
         <div className="flex flex-col mx-auto pb-5" style={{ height: "78vh" }}>
           <div className="flex justify-between mb-5">
-            <div className="w-20">
+            <div className="w-32">
               <Button type="button" name="Back" onClick={onClose} />
             </div>
             <div className="w-20">
-              <Button type="button" name="Reset" onClick={handleReset} />
+              <Button type="button" name="New Chat" onClick={() => setChat(null)} />
             </div>
           </div>
 

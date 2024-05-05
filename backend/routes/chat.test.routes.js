@@ -120,7 +120,7 @@ router.get("/", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const chat = await ChatTest.findOne({ email });
+    const chat = await ChatTest.findOne({ email }).sort({ timestamp: -1 }).limit(1);
 
     return res.status(200).json(chat);
   } catch (error) {

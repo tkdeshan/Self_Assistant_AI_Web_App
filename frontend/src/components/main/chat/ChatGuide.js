@@ -56,18 +56,6 @@ function ChatGuide({ visible, onClose }) {
     }
   };
 
-  const handleReset = async () => {
-    try {
-      const email = localStorage.getItem("email");
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/chat-guide`, {
-        data: { email: email },
-      });
-      fetchChats();
-    } catch (error) {
-      console.error("Failed to reset chat:", error);
-    }
-  };
-
   return (
     <>
       {!visible ? null : (
@@ -76,8 +64,8 @@ function ChatGuide({ visible, onClose }) {
             <div className="w-20">
               <Button type="button" name="Back" onClick={onClose} />
             </div>
-            <div className="w-20">
-              <Button type="button" name="Reset" onClick={handleReset} />
+            <div className="w-32">
+              <Button type="button" name="New Chat" onClick={() => setChat(null)} />
             </div>
           </div>
 
