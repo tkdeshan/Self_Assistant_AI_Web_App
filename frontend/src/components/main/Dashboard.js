@@ -24,18 +24,14 @@ function Dashboard() {
   };
 
   return (
-    <div className="flex flex-row p-4 min-h-screen overflow-auto" style={{ maxHeight: "100%" }}>
-      {!careerAnnalys && !testAnnalys && <div>Please first go to chat and follow the steps...</div>}
-      {careerAnnalys && (
-        <div>
-          <div className="flex justify-center mb-5">
-            <h1 className="text-blue-500 font-bold tracking-wider underline text-xl">
-              Career Guidance Analysis
-            </h1>
-          </div>
-          <div>
+    <div className="flex flex-row px-8 py-4 h-screen overflow-auto" style={{ maxHeight: "100%" }}>
+      <div className="flex flex-col w-1/2 mb-5">
+        <h1 className="text-gray-500 font-bold tracking-wider underline text-xl">Career Guidance Analysis</h1>
+
+        {careerAnnalys.length > 0 ? (
+          <div className="flex flex-col ml-4">
             {careerAnnalys.map((item, idx) => (
-              <div className="flex flex-row gap-5 justify-center" key={idx}>
+              <div className="flex flex-row gap-5 mt-2" key={idx}>
                 <div className="">
                   {item.summary.split("\n").map((line, index) => {
                     if (line.startsWith("**")) {
@@ -58,26 +54,44 @@ function Dashboard() {
               </div>
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="mt-1">Please first go to chat and follow the steps...</div>
+        )}
+      </div>
 
-      {testAnnalys && (
-        <div>
-          <div className="flex justify-center mb-5">
-            <h1 className="text-blue-500 font-bold tracking-wider underline text-xl">
-              Knowledge Test Analysis
-            </h1>
-          </div>
-          <div>
-            {testAnnalys.map((item, idx) => (
-              <div key={idx}>
-                {item?.summary}
-                {item?.date}
+      <div className="flex flex-col w-1/2 mb-5">
+        <h1 className="text-gray-500 font-bold tracking-wider underline text-xl"> Knowledge Test Analysis</h1>
+
+        {careerAnnalys.length > 0 ? (
+          <div className="flex flex-col ml-4">
+            {careerAnnalys.map((item, idx) => (
+              <div className="flex flex-row gap-5 mt-2" key={idx}>
+                <div className="">
+                  {item.summary.split("\n").map((line, index) => {
+                    if (line.startsWith("**")) {
+                      return (
+                        <div key={index}>
+                          <strong>{line.trim().replace(/\*+/g, "")}</strong>
+                          <br />
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className="" key={index}>
+                          {line}
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+                <div>{new Date(item?.date).toLocaleString()}</div>
               </div>
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="mt-1">Please first go to chat and follow the steps...</div>
+        )}
+      </div>
     </div>
   );
 }
