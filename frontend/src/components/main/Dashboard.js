@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function Dashboard(props) {
-  const [guideAnnalys, setGuideAnnalys] = useState(null);
+function Dashboard() {
+  const [careerAnnalys, setCareerAnnalys] = useState(null);
   const [testAnnalys, setTestAnnalys] = useState(null);
 
   useEffect(() => {
-    fetchChats();
+    fetchAnnalys();
   }, []);
 
-  const fetchChats = async () => {
+  const fetchAnnalys = async () => {
     try {
       const email = localStorage.getItem("email");
-      const responseGuide = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat-guide`, {
+      const Annalys = await axios.get(`${process.env.REACT_APP_BASE_URL}/annalys`, {
         params: { email: email },
       });
 
-      const responseTest = await axios.get(`https://self-assistant-ai-web-app-backend.vercel.app/chat-test`, {
-        params: { email: email },
-      });
-
-      setGuideAnnalys(responseGuide.data?.annalys);
-      setTestAnnalys(responseTest.data?.annalys);
+      setCareerAnnalys(Annalys.data?.careerAnnalys);
+      setTestAnnalys(Annalys.data?.testAnnalys);
     } catch (error) {
       console.error("Failed to fetch chats:", error);
     }
@@ -29,8 +25,8 @@ function Dashboard(props) {
 
   return (
     <div className="flex flex-col p-8 h-screen overflow-auto" style={{ maxHeight: "100%" }}>
-      {!guideAnnalys && !testAnnalys && <div>Please first go to chat and follow the steps...</div>}
-      {guideAnnalys && (
+      {!careerAnnalys && !testAnnalys && <div>Please first go to chat and follow the steps...</div>}
+      {careerAnnalys && (
         <div>
           <div className="flex justify-center mb-5">
             <h1 className="text-blue-500 font-bold tracking-wider underline text-xl">
@@ -38,33 +34,12 @@ function Dashboard(props) {
             </h1>
           </div>
           <div>
-            {guideAnnalys &&
-              guideAnnalys.split("\n").map((line, idx) => {
-                if (line.startsWith("**")) {
-                  return (
-                    <div key={idx}>
-                      <strong>{line.trim().replace(/\*+/g, "")}</strong>
-                      <br />
-                    </div>
-                  );
-                } else if (line.startsWith("*")) {
-                  return (
-                    <div key={idx}>
-                      {line.substring(0, 2)}
-                      <strong>{line.substring(2, line.lastIndexOf(":") + 1)}</strong>
-                      {line.substring(line.lastIndexOf(":") + 1)}
-                      <br />
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={idx}>
-                      {line.trim()}
-                      <br />
-                    </div>
-                  );
-                }
-              })}
+            {careerAnnalys.map((item, idx) => (
+              <div key={idx}>
+                {item?.summary}
+                {item.date}
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -73,37 +48,16 @@ function Dashboard(props) {
         <div>
           <div className="flex justify-center mb-5">
             <h1 className="text-blue-500 font-bold tracking-wider underline text-xl">
-              Knowledge Testing Analysis
+              Knowledge Test Analysis
             </h1>
           </div>
           <div>
-            {testAnnalys &&
-              testAnnalys.split("\n").map((line, idx) => {
-                if (line.startsWith("**")) {
-                  return (
-                    <div key={idx}>
-                      <strong>{line.trim().replace(/\*+/g, "")}</strong>
-                      <br />
-                    </div>
-                  );
-                } else if (line.startsWith("*")) {
-                  return (
-                    <div key={idx}>
-                      {line.substring(0, 2)}
-                      <strong>{line.substring(2, line.lastIndexOf(":") + 1)}</strong>
-                      {line.substring(line.lastIndexOf(":") + 1)}
-                      <br />
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={idx}>
-                      {line.trim()}
-                      <br />
-                    </div>
-                  );
-                }
-              })}
+            {testAnnalys.map((item, idx) => (
+              <div key={idx}>
+                {item?.summary}
+                {item?.date}
+              </div>
+            ))}
           </div>
         </div>
       )}
