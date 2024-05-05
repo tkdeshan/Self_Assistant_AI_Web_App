@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Chart from "../Chart";
+import Button from "../Button";
 
 function Dashboard() {
   const [careerAnnalys, setCareerAnnalys] = useState(null);
@@ -24,6 +25,32 @@ function Dashboard() {
     }
   };
 
+  const resetCareerAnnalys = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      await axios.put(`${process.env.REACT_APP_BASE_URL}/annalys`, {
+        email: email,
+        newCareerSummary: [],
+      });
+      fetchAnnalys();
+    } catch (error) {
+      console.error("Failed to reset career annalys:", error);
+    }
+  };
+
+  const resetTestAnnalys = async () => {
+    try {
+      const email = localStorage.getItem("email");
+      await axios.put(`${process.env.REACT_APP_BASE_URL}/annalys`, {
+        email: email,
+        newTestSummary: [],
+      });
+      fetchAnnalys();
+    } catch (error) {
+      console.error("Failed to reset test annalys:", error);
+    }
+  };
+
   return (
     <div className="flex flex-row gap-4 px-8 py-4 h-screen overflow-auto" style={{ maxHeight: "100%" }}>
       <div className="flex flex-col w-1/2 p-4 bg-green-200 rounded-md shadow-md overflow-auto">
@@ -33,6 +60,9 @@ function Dashboard() {
 
         {careerAnnalys?.length > 0 ? (
           <div className="flex flex-col ml-4 mt-2">
+            <div className="w-20">
+              <Button type="button" name="Reset" onClick={resetCareerAnnalys} />
+            </div>
             {careerAnnalys?.map((item, idx) => (
               <div>
                 <div className="flex flex-row gap-10 mt-2 mb-5" key={idx}>
@@ -74,6 +104,9 @@ function Dashboard() {
 
         {testAnnalys?.length > 0 ? (
           <div className="flex flex-col ml-4 mt-2">
+            <div className="w-20">
+              <Button type="button" name="Reset" onClick={resetTestAnnalys} />
+            </div>
             {testAnnalys?.map((item, idx) => (
               <div className="flex flex-row gap-10" key={idx}>
                 <div>

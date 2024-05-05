@@ -31,7 +31,7 @@ router.put("/", async (req, res) => {
     if (newTestSummary) {
       updatedAnnalys = await Annalys.findOneAndUpdate(
         { email },
-        { $push: { testAnnalys: { summary: newTestSummary } } },
+        { testAnnalys: newTestSummary },
         { new: true }
       );
     }
@@ -39,7 +39,7 @@ router.put("/", async (req, res) => {
     if (newCareerSummary) {
       updatedAnnalys = await Annalys.findOneAndUpdate(
         { email },
-        { $push: { careerAnnalys: { summary: newCareerSummary } } },
+        { careerAnnalys: newCareerSummary },
         { new: true }
       );
     }
@@ -51,6 +51,23 @@ router.put("/", async (req, res) => {
     return res.status(200).json(updatedAnnalys);
   } catch (error) {
     return res.status(500).json({ message: "Failed to update document", error: error.message });
+  }
+});
+
+// DELETE route to delete a document
+router.delete("/", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const deletedAnnalys = await Annalys.findOneAndDelete({ email });
+
+    if (!deletedAnnalys) {
+      return res.status(404).json({ message: "Document not found" });
+    }
+
+    return res.status(200).json({ message: "Document deleted successfully", data: deletedAnnalys });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to delete document", error: error.message });
   }
 });
 
