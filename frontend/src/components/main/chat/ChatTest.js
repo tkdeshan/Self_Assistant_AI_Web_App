@@ -34,6 +34,7 @@ function ChatTest({ visible, onClose }) {
       let response = null;
       if (chat) {
         response = await axios.put(`${process.env.REACT_APP_BASE_URL}/chat-test`, {
+          id: chat._id,
           email: email,
           message: chat.message,
           response: [...chat.response, chatInput],

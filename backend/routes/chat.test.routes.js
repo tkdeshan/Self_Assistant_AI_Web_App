@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ChatTest = require("../models/ChatTest");
 const User = require("../models/User");
+const Annalys = require("../models/Annalys");
 const sendRequestToGemini = require("../gemini");
 const { messageTest } = require("../constants");
 
@@ -45,7 +46,7 @@ router.post("/", async (req, res) => {
 // Update an existing chat message
 router.put("/", async (req, res) => {
   try {
-    const { email, message, response } = req.body;
+    const { id, email, message, response } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -97,11 +98,32 @@ router.put("/", async (req, res) => {
     const textContent = await sendRequestToGemini(requestData);
     message.push(textContent);
 
-    const updatedChat = await ChatTest.findOneAndUpdate(
-      { email },
-      { message, response, annalys: numQuestion + 2 > message.length ? null : textContent },
-      { new: true }
-    );
+    const updatedChat = await ChatTest.findOneAndUpdate({ _id: id }, { message, response }, { new: true });
+
+    if (!(numQuestion + 2 > message.length)) {
+      const prompt = textContent + " " + messageTest.summaryAnalysis + " " + skill;
+      const requestData = {
+        contents: [
+          {
+            parts: [
+              {
+                text: prompt,
+              },
+            ],
+          },
+        ],
+      };
+
+      const textSummary = await sendRequestToGemini(requestData);
+
+      if (textSummary) {
+        updatedAnnalys = await Annalys.findOneAndUpdate(
+          { email },
+          { $push: { testAnnalys: { summary: textSummary } } },
+          { new: true }
+        );
+      }
+    }
 
     return res.status(200).json({ message: "Chat message updated successfully", updatedChat });
   } catch (error) {

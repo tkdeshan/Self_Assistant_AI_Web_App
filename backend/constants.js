@@ -15,7 +15,8 @@ const messageTest = {
     "Do not provide the previous question answer. Provide another different only question for skill level tester. Please provide one question at once. Okay give next question. The skill is",
   promptAnalysis:
     "Give the each question and answer correct ot not and also give the explanation for each question. Finally According to the above question and answer list, determine the what is the skill level (Beginner, Intermediate, Advanced or Expert) and provide tha in the last line by formatting skill name : skill level. the skill is",
-  summaryAnalysis: "",
+  summaryAnalysis:
+    "Please provide only the skill level. It should format to skill name : skill level. Skill name is",
 };
 
 module.exports = {
