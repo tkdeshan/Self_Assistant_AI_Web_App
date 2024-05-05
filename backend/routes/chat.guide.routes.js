@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ChatGuide = require("../models/ChatGuide");
 const User = require("../models/User");
+const Annalys = require("../models/Annalys");
 const sendRequestToGemini = require("../gemini");
 const { messageGuide } = require("../constants");
 
@@ -94,11 +95,32 @@ router.put("/", async (req, res) => {
     const textContent = await sendRequestToGemini(requestData);
     message.push(textContent);
 
-    const updatedChat = await ChatGuide.findOneAndUpdate(
-      { email },
-      { message, response, annalys: numQuestion + 2 > message.length ? null : textContent },
-      { new: true }
-    );
+    const updatedChat = await ChatGuide.findOneAndUpdate({ email }, { message, response }, { new: true });
+
+    if (!(numQuestion + 2 > message.length)) {
+      const prompt = textContent + " " + messageGuide.summaryAnalysis;
+      const requestData = {
+        contents: [
+          {
+            parts: [
+              {
+                text: prompt,
+              },
+            ],
+          },
+        ],
+      };
+
+      const textSummary = await sendRequestToGemini(requestData);
+
+      if (textSummary) {
+        updatedAnnalys = await Annalys.findOneAndUpdate(
+          { email },
+          { $push: { careerAnnalys: { summary: textSummary } } },
+          { new: true }
+        );
+      }
+    }
 
     return res.status(200).json({ message: "Chat message updated successfully", updatedChat });
   } catch (error) {

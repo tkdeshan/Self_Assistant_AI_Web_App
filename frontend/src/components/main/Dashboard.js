@@ -24,7 +24,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col p-8 h-screen overflow-auto" style={{ maxHeight: "100%" }}>
+    <div className="flex flex-row p-4 min-h-screen overflow-auto" style={{ maxHeight: "100%" }}>
       {!careerAnnalys && !testAnnalys && <div>Please first go to chat and follow the steps...</div>}
       {careerAnnalys && (
         <div>
@@ -35,9 +35,26 @@ function Dashboard() {
           </div>
           <div>
             {careerAnnalys.map((item, idx) => (
-              <div key={idx}>
-                {item?.summary}
-                {item.date}
+              <div className="flex flex-row gap-5 justify-center" key={idx}>
+                <div className="">
+                  {item.summary.split("\n").map((line, index) => {
+                    if (line.startsWith("**")) {
+                      return (
+                        <div key={index}>
+                          <strong>{line.trim().replace(/\*+/g, "")}</strong>
+                          <br />
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className="" key={index}>
+                          {line}
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+                <div>{new Date(item?.date).toLocaleString()}</div>
               </div>
             ))}
           </div>

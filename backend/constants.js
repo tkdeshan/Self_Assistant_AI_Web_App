@@ -5,6 +5,7 @@ const messageGuide = {
     "Provide another question similar to the previous list for career path analysis. The question format should include the question number and question. Increase the question number by one from the previous list. Provide the next question. Please provide one question at once.",
   promptAnalysis:
     "According to the that information analysis the career path. Suggest five career paths and give the presentage that how sutable the career paths. finally provide the the best career path and the roadmap how to grow from that career path beggining to end.",
+  summaryAnalysis: "Please only give the career paths and prsentage only.",
 };
 
 const messageTest = {
@@ -14,6 +15,7 @@ const messageTest = {
     "Do not provide the previous question answer. Provide another different only question for skill level tester. Please provide one question at once. Okay give next question. The skill is",
   promptAnalysis:
     "Give the each question and answer correct ot not and also give the explanation for each question. Finally According to the above question and answer list, determine the what is the skill level (Beginner, Intermediate, Advanced or Expert) and provide tha in the last line by formatting skill name : skill level. the skill is",
+  summaryAnalysis: "",
 };
 
 module.exports = {
