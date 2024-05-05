@@ -121,11 +121,21 @@ router.put("/", async (req, res) => {
       const textSummary = await sendRequestToGemini(requestData);
 
       if (textSummary) {
-        updatedAnnalys = await Annalys.findOneAndUpdate(
-          { email },
-          { $push: { testAnnalys: { summary: textSummary } } },
-          { new: true }
-        );
+        const existingAnnalys = await Annalys.findOne({ email });
+
+        if (existingAnnalys) {
+          updatedAnnalys = await Annalys.findOneAndUpdate(
+            { email },
+            { $push: { testAnnalys: { summary: textSummary } } },
+            { new: true }
+          );
+        } else {
+          const newAnnalys = new Annalys({
+            email,
+            testAnnalys: [{ summary: textSummary }],
+          });
+          updatedAnnalys = await newAnnalys.save();
+        }
       }
     }
 
