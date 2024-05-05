@@ -41,8 +41,8 @@ const WelcomePage = () => {
                 About
                 <br />
                 <br />
-                "This platform combines a chat interface and a dashboard. It can be assist to users in testing
-                their knowledge and receiving career guidance with the AI technology."
+                "This platform combines a chat interface and a dashboard. It can be assist you to testing the
+                knowledge level in your skills and providing career guidance with the AI technology."
               </p>
             </div>
           </div>

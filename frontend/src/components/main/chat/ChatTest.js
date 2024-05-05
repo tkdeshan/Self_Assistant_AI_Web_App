@@ -61,7 +61,7 @@ function ChatTest({ visible, onClose }) {
     <>
       {" "}
       {!visible ? null : (
-        <div className="flex flex-col mx-auto pb-5" style={{ height: "78vh" }}>
+        <div className="flex flex-col mx-auto pb-5" style={{ height: "80vh" }}>
           <div className="flex justify-between mb-5">
             <div className="w-20">
               <Button type="button" name="Back" onClick={onClose} />
@@ -146,7 +146,7 @@ function ChatTest({ visible, onClose }) {
                 required={true}
               />
 
-              <div className="w-20 flex items-end">
+              <div className="w-20 flex items-center bg-blue-600 rounded-r-md">
                 <Button type="submit" name="Send" />
               </div>
             </form>
