@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
 // Update an existing chat message
 router.put("/", async (req, res) => {
   try {
-    const { email, message, response } = req.body;
+    const { id, email, message, response } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -95,7 +95,7 @@ router.put("/", async (req, res) => {
     const textContent = await sendRequestToGemini(requestData);
     message.push(textContent);
 
-    const updatedChat = await ChatGuide.findOneAndUpdate({ email }, { message, response }, { new: true });
+    const updatedChat = await ChatGuide.findOneAndUpdate({ _id: id }, { message, response }, { new: true });
 
     if (!(numQuestion + 2 > message.length)) {
       const prompt = textContent + " " + messageGuide.summaryAnalysis;
