@@ -4,7 +4,7 @@ import HighchartsReact from "highcharts-react-official";
 
 const Chart = ({ type, chartData }) => {
   const [chartConfig, setChartConfig] = useState(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     if (type === "column") {
@@ -24,6 +24,7 @@ const Chart = ({ type, chartData }) => {
 
         return { name: skill, y: x };
       });
+
       setData(summaryData);
     }
 
@@ -64,7 +65,7 @@ const Chart = ({ type, chartData }) => {
     setChartConfig(chartConfig);
 
     // eslint-disable-next-line
-  }, []);
+  }, [chartData, type]);
 
   return (
     <div>
