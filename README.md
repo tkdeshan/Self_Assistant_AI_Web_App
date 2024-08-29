@@ -88,3 +88,7 @@ The web app is live on : https://self-assistant-ai-web-app.vercel.app/
 1. Register or log in to the application.
 2. In the chat interface, interact with the AI to receive personalized career guidance and advice.
 3. Navigate through the dashboard to access knowledge testing summary.
+
+## Note
+
+- Get Gemini API Key go to Google Ai Studio - https://aistudio.google.com/app/apikey
