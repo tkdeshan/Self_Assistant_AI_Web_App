@@ -73,21 +73,6 @@ const ChatMenu = () => {
           }}
         />
       )}
-
-      {!chatType && (
-        <div className="mt-10">
-          <p className="text-red-500">
-            Please provide your feedback :{" "}
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSea7qpZKb7xOir-WlJdpiY4yhpPgZ_2KwXQ4SBM1F6J0_fp2Q/viewform?usp=send_form"
-              rel="noreferrer"
-              className="text-blue-500"
-              target="_blank">
-              click
-            </a>
-          </p>
-        </div>
-      )}
     </div>
   );
 };
